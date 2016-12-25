@@ -1,0 +1,2960 @@
+<!DOCTYPE html>
+<html itemscope="" itemtype="http://schema.org/QAPage"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+<title>java - force Maven2 to copy dependencies into target/lib - Stack Overflow</title>
+    <link rel="shortcut icon" href="http://cdn.sstatic.net/stackoverflow/img/favicon.ico?v=4f32ecc8f43d"><style>div[id^="adzerk"],
+.hireme,
+#header + #content > #left > #rlblock_left,
+#content > #right > .dose > .dosesingle,
+#content > #center > .dose > .dosesingle,
+#SE20-ad-container
+{display:none !important;}</style><style>img[src="http://static.adzerk.net/Advertisers/7b03b9d327834757b98b657002b37789.png"],
+img[src="http://engine.adzerk.net/i.gif?e=eyJhdiI6NDE0LCJhdCI6NCwiYnQiOjAsImNtIjoxODY2MjQsImNoIjoxMTc4LCJjayI6e30sImNyIjo2NjI3OTYsImRpIjoiMzI4OTM2MTAxMDAwNDc5Njk1OTkwMTdhYzkyMWZiOTkiLCJkbSI6MSwiZmMiOjY4NDUyMiwiZmwiOjQxMDE4MywiaXAiOiI4Ni41Ny4xNDQuOTkiLCJrdyI6ImphdmEsbWF2ZW4sZW5jb2RpbmcsdXRmLTgiLCJudyI6MjIsInBjIjowLCJlYyI6MCwicHIiOjE1NjgsInJ0IjoxLCJyZiI6Imh0dHA6Ly93d3cuZ29vZ2xlLmNvbS91cmw_c2E9dCZyY3Q9aiZxPSZlc3JjPXMmc291cmNlPXdlYiZjZD0yJnZlZD0wQ0NZUUZqQUJhaFVLRXdpdmk3ekV0TlBJQWhVS3ZYSUtIUi0zQXVRJnVybD1odHRwOi8vc3RhY2tvdmVyZmxvdy5jb20vcXVlc3Rpb25zLzE3NjU2NDc1L21hdmVuLXNvdXJjZS1lbmNvZGluZy1pbi11dGYtOC1ub3Qtd29ya2luZyZ1c2c9QUZRakNOR3l0RWRQd2drX0xneko3ZVJtS19DSC1hMUp4QSZzaWcyPXZaeGhvbjB0dF9sYlMyWWNmOHYxWncmY2FkPXJqYSIsInN0Ijo4Mjc3LCJ1ayI6InVlMS05YjZhMzMzZDAyMjk0MDRiYjMwMTMxNTU1Nzk2MjZjYiIsInpuIjo0MywidHMiOjE0NDU0MjUyMjQyMjYsImJmIjp0cnVlLCJwbiI6ImFkemVyazE1MTc4NDY3MTYifQ&s=Pq4Ro7PCg7v2u8oII-c359sXV3A"],
+img[src="http://engine.adzerk.net/i.gif?e=eyJhdiI6NDE0LCJhdCI6NCwiYnQiOjAsImNtIjoxODY2MjQsImNoIjoxMTc4LCJjayI6e30sImNyIjo2ODQyOTgsImRpIjoiN2IxZDk3ODI1YTdlNDI3MGFkNWE3Y2FjMWU2ZDQ3MmEiLCJkbSI6MSwiZmMiOjcwODQ1MiwiZmwiOjQzMTc4MCwiaXAiOiI4Ni41Ny4xNDQuOTkiLCJrdyI6ImphdmEsbWF2ZW4sZW5jb2RpbmcsdXRmLTgiLCJudyI6MjIsInBjIjowLCJlYyI6MCwicHIiOjE2MDQsInJ0IjoxLCJyZiI6Imh0dHA6Ly93d3cuZ29vZ2xlLmNvbS91cmw_c2E9dCZyY3Q9aiZxPSZlc3JjPXMmc291cmNlPXdlYiZjZD0yJnZlZD0wQ0NZUUZqQUJhaFVLRXdpdmk3ekV0TlBJQWhVS3ZYSUtIUi0zQXVRJnVybD1odHRwOi8vc3RhY2tvdmVyZmxvdy5jb20vcXVlc3Rpb25zLzE3NjU2NDc1L21hdmVuLXNvdXJjZS1lbmNvZGluZy1pbi11dGYtOC1ub3Qtd29ya2luZyZ1c2c9QUZRakNOR3l0RWRQd2drX0xneko3ZVJtS19DSC1hMUp4QSZzaWcyPXZaeGhvbjB0dF9sYlMyWWNmOHYxWncmY2FkPXJqYSIsInN0Ijo4Mjc3LCJ1ayI6InVlMS05YjZhMzMzZDAyMjk0MDRiYjMwMTMxNTU1Nzk2MjZjYiIsInpuIjo0NCwidHMiOjE0NDU0MjUyMjQyMjgsImJmIjp0cnVlLCJwbiI6ImFkemVyazEyMjI0MTIwNSJ9&s=T1Cl5PdXTqX-0YuqoKmlkIXxKTI"],
+img[src="http://engine.adzerk.net/i.gif?e=eyJhdiI6NDE0LCJhdCI6MTcsImJ0IjowLCJjbSI6OTIxLCJjaCI6MTE3OCwiY2siOnt9LCJjciI6MjY4OCwiZGkiOiJmYTJiZTI4ODVjZDA0MTE5OWU5ZjE2NzAyYmMwNDA1MyIsImRtIjoxLCJmYyI6MjQ4NSwiZmwiOjI2NjMsImlwIjoiODYuNTcuMTQ0Ljk5Iiwia3ciOiJqYXZhLG1hdmVuLGVuY29kaW5nLHV0Zi04IiwibnciOjIyLCJwYyI6MCwiZWMiOjAsInByIjo2MTczNywicnQiOjEsInJmIjoiaHR0cDovL3d3dy5nb29nbGUuY29tL3VybD9zYT10JnJjdD1qJnE9JmVzcmM9cyZzb3VyY2U9d2ViJmNkPTImdmVkPTBDQ1lRRmpBQmFoVUtFd2l2aTd6RXROUElBaFVLdlhJS0hSLTNBdVEmdXJsPWh0dHA6Ly9zdGFja292ZXJmbG93LmNvbS9xdWVzdGlvbnMvMTc2NTY0NzUvbWF2ZW4tc291cmNlLWVuY29kaW5nLWluLXV0Zi04LW5vdC13b3JraW5nJnVzZz1BRlFqQ05HeXRFZFB3Z2tfTGd6SjdlUm1LX0NILWExSnhBJnNpZzI9dlp4aG9uMHR0X2xiUzJZY2Y4djFadyZjYWQ9cmphIiwic3QiOjgyNzcsInVrIjoidWUxLTliNmEzMzNkMDIyOTQwNGJiMzAxMzE1NTU3OTYyNmNiIiwiem4iOjQ1LCJ0cyI6MTQ0NTQyNTIyNDIyOSwiYmYiOnRydWUsInBuIjoiYWR6ZXJrMTMwOTcxMjgyNCJ9&s=C8vZq3trNTST2McH0qKRQ9lGt7U"],
+img[src="http://static.adzerk.net/Advertisers/d47c809dea6241b9933a81fe1d0f7085.jpg"],
+img[src="http://engine.adzerk.net/i.gif?e=eyJhdiI6NDE0LCJhdCI6NCwiYnQiOjAsImNtIjoxODY2MjQsImNoIjoxMTc4LCJjayI6e30sImNyIjo2OTU3MTMsImRpIjoiMTYxZmJjZjMzM2UyNGRmMWFhNjQyNmEzOWI1NDYxNzQiLCJkbSI6MSwiZmMiOjcyMTgwNywiZmwiOjQzMTc4MCwiaXAiOiI4Ni41Ny4xNDQuOTkiLCJudyI6MjIsInBjIjowLCJlYyI6MCwicHIiOjE2MDQsInJ0IjoxLCJyZiI6Imh0dHA6Ly93d3cuZ29vZ2xlLmNvbS91cmw_c2E9dCZyY3Q9aiZxPSZlc3JjPXMmc291cmNlPXdlYiZjZD0xJnZlZD0wQ0IwUUZqQUFhaFVLRXdpdmk3ekV0TlBJQWhVS3ZYSUtIUi0zQXVRJnVybD1odHRwOi8vc3RhY2tvdmVyZmxvdy5jb20vcXVlc3Rpb25zLzMwMTc2OTUvaG93LXRvLWNvbmZpZ3VyZS1lbmNvZGluZy1pbi1tYXZlbiZ1c2c9QUZRakNORnhudHlhbXhyck9RZXJMd2FaWkpfT1ZvdDMzdyZzaWcyPXNrVmdzMmY0ZGlYenJqbVh1UHY1ZEEmY2FkPXJqYSIsInN0Ijo4Mjc3LCJ1ayI6InVlMS05YjZhMzMzZDAyMjk0MDRiYjMwMTMxNTU1Nzk2MjZjYiIsInpuIjo0MywidHMiOjE0NDU0MjUyMjYxOTcsImJmIjp0cnVlLCJwbiI6ImNhcmVlcnMxIn0&s=AvkSLzqklbPeZ2SpeGhmgbvkrX4"],
+img[src="http://static.adzerk.net/Advertisers/7fcccaae8acb4e2e84bb7ea421d299ce.jpg"],
+img[src="http://engine.adzerk.net/i.gif?e=eyJhdiI6NDE0LCJhdCI6NCwiYnQiOjAsImNtIjoxODY2MjQsImNoIjoxMTc4LCJjayI6e30sImNyIjo3MjI2ODIsImRpIjoiYmVlNDg2YmM5OGUxNGVkNWEwYzNkZmYxMmMzNDYzMGEiLCJkbSI6MSwiZmMiOjc1MjI0MSwiZmwiOjQ0MTMzNCwiaXAiOiI4Ni41Ny4xNDQuOTkiLCJudyI6MjIsInBjIjowLCJlYyI6MCwicHIiOjE1NjgsInJ0IjoxLCJyZiI6Imh0dHA6Ly93d3cuZ29vZ2xlLmNvbS91cmw_c2E9dCZyY3Q9aiZxPSZlc3JjPXMmc291cmNlPXdlYiZjZD0xJnZlZD0wQ0IwUUZqQUFhaFVLRXdpdmk3ekV0TlBJQWhVS3ZYSUtIUi0zQXVRJnVybD1odHRwOi8vc3RhY2tvdmVyZmxvdy5jb20vcXVlc3Rpb25zLzMwMTc2OTUvaG93LXRvLWNvbmZpZ3VyZS1lbmNvZGluZy1pbi1tYXZlbiZ1c2c9QUZRakNORnhudHlhbXhyck9RZXJMd2FaWkpfT1ZvdDMzdyZzaWcyPXNrVmdzMmY0ZGlYenJqbVh1UHY1ZEEmY2FkPXJqYSIsInN0Ijo4Mjc3LCJ1ayI6InVlMS05YjZhMzMzZDAyMjk0MDRiYjMwMTMxNTU1Nzk2MjZjYiIsInpuIjo0NCwidHMiOjE0NDU0MjUyMjYxOTksImJmIjp0cnVlLCJwbiI6ImNhcmVlcnMzIn0&s=0PjsyYE8uNW8NF-pZykoZTaAXPE"],
+img[src="http://static.adzerk.net/Advertisers/831a088cf67e42c580e407e2d91c8ce6.jpg"],
+img[src="http://engine.adzerk.net/i.gif?e=eyJhdiI6NDE0LCJhdCI6NCwiYnQiOjAsImNtIjoxODY2MjQsImNoIjoxMTc4LCJjayI6e30sImNyIjo2OTU3MTUsImRpIjoiNDJjMjdiMzUyZjgxNGVlMmI2MDhjY2FmNjczMTE1ZDMiLCJkbSI6MSwiZmMiOjcyMTgwOSwiZmwiOjQzMTc4MCwiaXAiOiI4Ni41Ny4xNDQuOTkiLCJrdyI6ImphdmEsbWF2ZW4sbWF2ZW4tMixjaGFyYWN0ZXItZW5jb2RpbmciLCJudyI6MjIsInBjIjowLCJlYyI6MCwicHIiOjE2MDQsInJ0IjoxLCJyZiI6Imh0dHA6Ly9zdGFja292ZXJmbG93LmNvbS9xdWVzdGlvbnMvMTc2NTY0NzUvbWF2ZW4tc291cmNlLWVuY29kaW5nLWluLXV0Zi04LW5vdC13b3JraW5nIiwic3QiOjgyNzcsInVrIjoidWUxLTliNmEzMzNkMDIyOTQwNGJiMzAxMzE1NTU3OTYyNmNiIiwiem4iOjQzLCJ0cyI6MTQ0NTQyNTI3NTk0NywiYmYiOnRydWUsInBuIjoiYWR6ZXJrMTczOTA5NjI3NiJ9&s=uz5hjheoNtZW8BPPatLgkvASxRk"],
+img[src="http://static.adzerk.net/Advertisers/6a84d696ad6c4679804e4923a617ade4.png"],
+img[src="http://engine.adzerk.net/i.gif?e=eyJhdiI6NDE0LCJhdCI6NCwiYnQiOjAsImNtIjoxODY2MjQsImNoIjoxMTc4LCJjayI6e30sImNyIjo2ODQyOTcsImRpIjoiZDQzZTZjYWVmZmNkNGM2ZTlkOGYxODcxNzJlOWY1Y2UiLCJkbSI6MSwiZmMiOjcwODQ1MSwiZmwiOjQzMTc4MCwiaXAiOiI4Ni41Ny4xNDQuOTkiLCJrdyI6ImphdmEsbWF2ZW4sbWF2ZW4tMixjaGFyYWN0ZXItZW5jb2RpbmciLCJudyI6MjIsInBjIjowLCJlYyI6MCwicHIiOjE2MDQsInJ0IjoxLCJyZiI6Imh0dHA6Ly9zdGFja292ZXJmbG93LmNvbS9xdWVzdGlvbnMvMTc2NTY0NzUvbWF2ZW4tc291cmNlLWVuY29kaW5nLWluLXV0Zi04LW5vdC13b3JraW5nIiwic3QiOjgyNzcsInVrIjoidWUxLTliNmEzMzNkMDIyOTQwNGJiMzAxMzE1NTU3OTYyNmNiIiwiem4iOjQ0LCJ0cyI6MTQ0NTQyNTI3NTk1MCwiYmYiOnRydWUsInBuIjoiYWR6ZXJrMTEyOTY2MTIyMiJ9&s=cqsCqo70rOhkznetOywxYy2XQlM"],
+img[src="http://engine.adzerk.net/i.gif?e=eyJhdiI6NDE0LCJhdCI6MTcsImJ0IjowLCJjbSI6OTIxLCJjaCI6MTE3OCwiY2siOnt9LCJjciI6MjY4OCwiZGkiOiIzMzRlOTYxMDY2MmI0NDdiODgxMmY5ZmQyOWY2M2Q0NCIsImRtIjoxLCJmYyI6MjQ4NSwiZmwiOjI2NjMsImlwIjoiODYuNTcuMTQ0Ljk5Iiwia3ciOiJqYXZhLG1hdmVuLG1hdmVuLTIsY2hhcmFjdGVyLWVuY29kaW5nIiwibnciOjIyLCJwYyI6MCwiZWMiOjAsInByIjo2MTczNywicnQiOjEsInJmIjoiaHR0cDovL3N0YWNrb3ZlcmZsb3cuY29tL3F1ZXN0aW9ucy8xNzY1NjQ3NS9tYXZlbi1zb3VyY2UtZW5jb2RpbmctaW4tdXRmLTgtbm90LXdvcmtpbmciLCJzdCI6ODI3NywidWsiOiJ1ZTEtOWI2YTMzM2QwMjI5NDA0YmIzMDEzMTU1NTc5NjI2Y2IiLCJ6biI6NDUsInRzIjoxNDQ1NDI1Mjc1OTUyLCJiZiI6dHJ1ZSwicG4iOiJhZHplcmsxMzQ1MjMxMDc5In0&s=xjGuwGhhtM8P08lau5Bc4dn2FJ4"],
+img[src="http://engine.adzerk.net/i.gif?e=eyJhdiI6NDE0LCJhdCI6NCwiYnQiOjAsImNtIjoxODY2MjQsImNoIjoxMTc4LCJjayI6e30sImNyIjo2ODQyODAsImRpIjoiMmE5ZTUzOTY5ZmY0NDExZDlhZmNlZGJmYWQ0Njk1YjIiLCJkbSI6MSwiZmMiOjcwODQzNCwiZmwiOjQzMTc4MCwiaXAiOiI4Ni41Ny4xNDQuOTkiLCJrdyI6Im1hdmVuLTIsbWF2ZW4tcGx1Z2luLG1hdmVuLWFzc2VtYmx5LXBsdWdpbiIsIm53IjoyMiwicGMiOjAsImVjIjowLCJwciI6MTYwNCwicnQiOjEsInJmIjoiaHR0cDovL3d3dy5nb29nbGUuY29tL3VybD9zYT10JnJjdD1qJnE9JmVzcmM9cyZzb3VyY2U9d2ViJmNkPTEmdmVkPTBDQjBRRmpBQWFoVUtFd2kxb19yNnRkUElBaFZsdjNJS0haeFpDRUEmdXJsPWh0dHA6Ly9zdGFja292ZXJmbG93LmNvbS9xdWVzdGlvbnMvMjA2NTkyOC9tYXZlbi0yLWFzc2VtYmx5LXdpdGgtZGVwZW5kZW5jaWVzLWphci11bmRlci1zY29wZS1zeXN0ZW0tbm90LWluY2x1ZGVkJnVzZz1BRlFqQ05FTldGdVUxdk1TR0QySVEteHYwLWY3Yk40ZS13JnNpZzI9YnBxTDQxSW1MY183YWQ4T0JOUVpjZyZjYWQ9cmphIiwic3QiOjgyNzcsInVrIjoidWUxLTliNmEzMzNkMDIyOTQwNGJiMzAxMzE1NTU3OTYyNmNiIiwiem4iOjQzLCJ0cyI6MTQ0NTQyNTYwNDM5OCwiYmYiOnRydWUsInBuIjoiYWR6ZXJrMTE5MjcxNDg2MyJ9&s=hCPBHisaROulU6LlWPE7XR5-EAA"],
+img[src="http://static.adzerk.net/Advertisers/e669aa51cc0d45358045db867ef436be.png"],
+img[src="http://engine.adzerk.net/i.gif?e=eyJhdiI6NDE0LCJhdCI6NCwiYnQiOjAsImNtIjoxODY2MjQsImNoIjoxMTc4LCJjayI6e30sImNyIjo3MjI2ODMsImRpIjoiNjIyZDgwYmRhMzQ3NDdhZDlhYjMzZDZkNWI3NjhkMmMiLCJkbSI6MSwiZmMiOjc1MjI0MiwiZmwiOjQ0MTMzNCwiaXAiOiI4Ni41Ny4xNDQuOTkiLCJrdyI6Im1hdmVuLTIsbWF2ZW4tcGx1Z2luLG1hdmVuLWFzc2VtYmx5LXBsdWdpbiIsIm53IjoyMiwicGMiOjAsImVjIjowLCJwciI6MTU2OCwicnQiOjEsInJmIjoiaHR0cDovL3d3dy5nb29nbGUuY29tL3VybD9zYT10JnJjdD1qJnE9JmVzcmM9cyZzb3VyY2U9d2ViJmNkPTEmdmVkPTBDQjBRRmpBQWFoVUtFd2kxb19yNnRkUElBaFZsdjNJS0haeFpDRUEmdXJsPWh0dHA6Ly9zdGFja292ZXJmbG93LmNvbS9xdWVzdGlvbnMvMjA2NTkyOC9tYXZlbi0yLWFzc2VtYmx5LXdpdGgtZGVwZW5kZW5jaWVzLWphci11bmRlci1zY29wZS1zeXN0ZW0tbm90LWluY2x1ZGVkJnVzZz1BRlFqQ05FTldGdVUxdk1TR0QySVEteHYwLWY3Yk40ZS13JnNpZzI9YnBxTDQxSW1MY183YWQ4T0JOUVpjZyZjYWQ9cmphIiwic3QiOjgyNzcsInVrIjoidWUxLTliNmEzMzNkMDIyOTQwNGJiMzAxMzE1NTU3OTYyNmNiIiwiem4iOjQ0LCJ0cyI6MTQ0NTQyNTYwNDQwMSwiYmYiOnRydWUsInBuIjoiYWR6ZXJrMTY2OTkxNjU2MSJ9&s=xyqFvVQtp80pN4PPjOW6q5I72sk"],
+img[src="http://engine.adzerk.net/i.gif?e=eyJhdiI6NDE0LCJhdCI6MTcsImJ0IjowLCJjbSI6OTIxLCJjaCI6MTE3OCwiY2siOnt9LCJjciI6MjY4OCwiZGkiOiJkYzMyZDUzODMyNmQ0YzFhOTc4NWE0YjVhYjc3N2JkYSIsImRtIjoxLCJmYyI6MjQ4NSwiZmwiOjI2NjMsImlwIjoiODYuNTcuMTQ0Ljk5Iiwia3ciOiJtYXZlbi0yLG1hdmVuLXBsdWdpbixtYXZlbi1hc3NlbWJseS1wbHVnaW4iLCJudyI6MjIsInBjIjowLCJlYyI6MCwicHIiOjYxNzM3LCJydCI6MSwicmYiOiJodHRwOi8vd3d3Lmdvb2dsZS5jb20vdXJsP3NhPXQmcmN0PWomcT0mZXNyYz1zJnNvdXJjZT13ZWImY2Q9MSZ2ZWQ9MENCMFFGakFBYWhVS0V3aTFvX3I2dGRQSUFoVmx2M0lLSFp4WkNFQSZ1cmw9aHR0cDovL3N0YWNrb3ZlcmZsb3cuY29tL3F1ZXN0aW9ucy8yMDY1OTI4L21hdmVuLTItYXNzZW1ibHktd2l0aC1kZXBlbmRlbmNpZXMtamFyLXVuZGVyLXNjb3BlLXN5c3RlbS1ub3QtaW5jbHVkZWQmdXNnPUFGUWpDTkVOV0Z1VTF2TVNHRDJJUS14djAtZjdiTjRlLXcmc2lnMj1icHFMNDFJbUxjXzdhZDhPQk5RWmNnJmNhZD1yamEiLCJzdCI6ODI3NywidWsiOiJ1ZTEtOWI2YTMzM2QwMjI5NDA0YmIzMDEzMTU1NTc5NjI2Y2IiLCJ6biI6NDUsInRzIjoxNDQ1NDI1NjA0NDAyLCJiZiI6dHJ1ZSwicG4iOiJhZHplcmsxNDg0Njc0MjEyIn0&s=F2Wjhh0kujt556ffKuByD2dp0nk"],
+img[src="http://engine.adzerk.net/i.gif?e=eyJhdiI6NDE0LCJhdCI6NCwiYnQiOjAsImNtIjoxODY2MjQsImNoIjoxMTc4LCJjayI6e30sImNyIjo2NjI3OTYsImRpIjoiZWMxYzNiMjc3MTJjNDY1NmFjZGFjOTAyM2JkM2U5OTQiLCJkbSI6MSwiZmMiOjY4NDUyMiwiZmwiOjQxMDE4MywiaXAiOiI4Ni41Ny4xNDQuOTkiLCJudyI6MjIsInBjIjowLCJlYyI6MCwicHIiOjE1NjgsInJ0IjoxLCJyZiI6Imh0dHA6Ly93d3cuZ29vZ2xlLmNvbS91cmw_c2E9dCZyY3Q9aiZxPSZlc3JjPXMmc291cmNlPXdlYiZjZD0xJnZlZD0wQ0IwUUZqQUFhaFVLRXdpZGhOZU10OVBJQWhYSDhYSUtIVTBOQUZrJnVybD1odHRwOi8vc3RhY2tvdmVyZmxvdy5jb20vcXVlc3Rpb25zLzE3NTE1NTEvbWF2ZW4taG93LXRvLWV4cG9ydC1wcm9qZWN0LXdpdGgtc291cmNlcy1hbmQtZGVwZW5kZW5jaWVzJnVzZz1BRlFqQ05IdEFvRFdhQ2J1cHlQeE9EQmpnbUdWYjJuYXdRJnNpZzI9RUgzY2VwV3BKMllxX0JScWJJMEI1QSZjYWQ9cmphIiwic3QiOjgyNzcsInVrIjoidWUxLTliNmEzMzNkMDIyOTQwNGJiMzAxMzE1NTU3OTYyNmNiIiwiem4iOjQzLCJ0cyI6MTQ0NTQyNTkwOTkzOCwiYmYiOnRydWUsInBuIjoiY2FyZWVyczEifQ&s=gkBKdkcf3x0hMIWOgS6kDHQ5eD0"],
+img[src="http://static.adzerk.net/Advertisers/ed3b3bbfd4364176bfd1feb8506577ed.jpg"],
+img[src="http://engine.adzerk.net/i.gif?e=eyJhdiI6NDE0LCJhdCI6NCwiYnQiOjAsImNtIjoxODY2MjQsImNoIjoxMTc4LCJjayI6e30sImNyIjo2OTU3MzcsImRpIjoiMDVjY2ViY2E0ZThiNDAxNDg3MjFlZGMzNzllZTU1NTAiLCJkbSI6MSwiZmMiOjcyMTgzMSwiZmwiOjQzMTc4MCwiaXAiOiI4Ni41Ny4xNDQuOTkiLCJudyI6MjIsInBjIjowLCJlYyI6MCwicHIiOjE2MDQsInJ0IjoxLCJyZiI6Imh0dHA6Ly93d3cuZ29vZ2xlLmNvbS91cmw_c2E9dCZyY3Q9aiZxPSZlc3JjPXMmc291cmNlPXdlYiZjZD0xJnZlZD0wQ0IwUUZqQUFhaFVLRXdpZGhOZU10OVBJQWhYSDhYSUtIVTBOQUZrJnVybD1odHRwOi8vc3RhY2tvdmVyZmxvdy5jb20vcXVlc3Rpb25zLzE3NTE1NTEvbWF2ZW4taG93LXRvLWV4cG9ydC1wcm9qZWN0LXdpdGgtc291cmNlcy1hbmQtZGVwZW5kZW5jaWVzJnVzZz1BRlFqQ05IdEFvRFdhQ2J1cHlQeE9EQmpnbUdWYjJuYXdRJnNpZzI9RUgzY2VwV3BKMllxX0JScWJJMEI1QSZjYWQ9cmphIiwic3QiOjgyNzcsInVrIjoidWUxLTliNmEzMzNkMDIyOTQwNGJiMzAxMzE1NTU3OTYyNmNiIiwiem4iOjQ0LCJ0cyI6MTQ0NTQyNTkwOTk0MSwiYmYiOnRydWUsInBuIjoiY2FyZWVyczMifQ&s=zYZ4wTjx5F5xYMFf49PFmRZx9uM"],
+img[src="http://engine.adzerk.net/i.gif?e=eyJhdiI6NDE0LCJhdCI6NCwiYnQiOjAsImNtIjoxODY2MjQsImNoIjoxMTc4LCJjayI6e30sImNyIjo2NjI3OTMsImRpIjoiNDJmOWQ0ZmZhMjUwNDE2M2E4YjAzYjQwMzEzYjRmYWEiLCJkbSI6MSwiZmMiOjY4NDUyMCwiZmwiOjQxMDE4MywiaXAiOiI4Ni41Ny4xNDQuOTkiLCJrdyI6ImphdmEsbWF2ZW4tMixidWlsZC1wcm9jZXNzLGJ1aWxkLWF1dG9tYXRpb24sZXhlY3V0YWJsZS1qYXIiLCJudyI6MjIsInBjIjowLCJlYyI6MCwicHIiOjE1NjgsInJ0IjoxLCJyZiI6Imh0dHA6Ly93d3cuZ29vZ2xlLmNvbS91cmw_c2E9dCZyY3Q9aiZxPSZlc3JjPXMmc291cmNlPXdlYiZjZD0yJnZlZD0wQ0NZUUZqQUJhaFVLRXdpZGhOZU10OVBJQWhYSDhYSUtIVTBOQUZrJnVybD1odHRwOi8vc3RhY2tvdmVyZmxvdy5jb20vcXVlc3Rpb25zLzU3NDU5NC9ob3ctY2FuLWktY3JlYXRlLWFuLWV4ZWN1dGFibGUtamFyLXdpdGgtZGVwZW5kZW5jaWVzLXVzaW5nLW1hdmVuJnVzZz1BRlFqQ05FSGN2SHN6cWZOc1NHQ0N5dGNvVmJOelJvZlFnJnNpZzI9MmJTY1RTNVF5cldFOTBEekxtN3JJdyZjYWQ9cmphIiwic3QiOjgyNzcsInVrIjoidWUxLTliNmEzMzNkMDIyOTQwNGJiMzAxMzE1NTU3OTYyNmNiIiwiem4iOjQzLCJ0cyI6MTQ0NTQyNTkxMjcwNSwiYmYiOnRydWUsInBuIjoiYWR6ZXJrMzU0NzU4Mzk3In0&s=Bo4xdscK5Vq2_W50OdCmsi4-pXk"],
+img[src="http://engine.adzerk.net/i.gif?e=eyJhdiI6NDE0LCJhdCI6NCwiYnQiOjAsImNtIjoxODY2MjQsImNoIjoxMTc4LCJjayI6e30sImNyIjo2OTU3MzgsImRpIjoiMGZjM2NjNzI2ODc3NDdiOThjNGQwYzk0N2U0ODk5NjciLCJkbSI6MSwiZmMiOjcyMTgzMiwiZmwiOjQzMTc4MCwiaXAiOiI4Ni41Ny4xNDQuOTkiLCJrdyI6ImphdmEsbWF2ZW4tMixidWlsZC1wcm9jZXNzLGJ1aWxkLWF1dG9tYXRpb24sZXhlY3V0YWJsZS1qYXIiLCJudyI6MjIsInBjIjowLCJlYyI6MCwicHIiOjE2MDQsInJ0IjoxLCJyZiI6Imh0dHA6Ly93d3cuZ29vZ2xlLmNvbS91cmw_c2E9dCZyY3Q9aiZxPSZlc3JjPXMmc291cmNlPXdlYiZjZD0yJnZlZD0wQ0NZUUZqQUJhaFVLRXdpZGhOZU10OVBJQWhYSDhYSUtIVTBOQUZrJnVybD1odHRwOi8vc3RhY2tvdmVyZmxvdy5jb20vcXVlc3Rpb25zLzU3NDU5NC9ob3ctY2FuLWktY3JlYXRlLWFuLWV4ZWN1dGFibGUtamFyLXdpdGgtZGVwZW5kZW5jaWVzLXVzaW5nLW1hdmVuJnVzZz1BRlFqQ05FSGN2SHN6cWZOc1NHQ0N5dGNvVmJOelJvZlFnJnNpZzI9MmJTY1RTNVF5cldFOTBEekxtN3JJdyZjYWQ9cmphIiwic3QiOjgyNzcsInVrIjoidWUxLTliNmEzMzNkMDIyOTQwNGJiMzAxMzE1NTU3OTYyNmNiIiwiem4iOjQ0LCJ0cyI6MTQ0NTQyNTkxMjcwOCwiYmYiOnRydWUsInBuIjoiYWR6ZXJrMTc3MzA1MDgyMSJ9&s=MHcWr3A0b2TzwIWRyPYYjaHveEs"],
+img[src="http://engine.adzerk.net/i.gif?e=eyJhdiI6NDE0LCJhdCI6MTcsImJ0IjowLCJjbSI6OTkzLCJjaCI6MTE3OCwiY2siOnt9LCJjciI6MzE5NCwiZGkiOiJhZTI5NDI2YmQ5ZDg0OWI1OWYzNWViZDY1ZDRmOTllNCIsImRtIjoxLCJmYyI6MTE3MTksImZsIjoyODQxLCJpcCI6Ijg2LjU3LjE0NC45OSIsImt3IjoiamF2YSxtYXZlbi0yLGJ1aWxkLXByb2Nlc3MsYnVpbGQtYXV0b21hdGlvbixleGVjdXRhYmxlLWphciIsIm53IjoyMiwicGMiOjAsImVjIjowLCJwciI6MTYwNCwicnQiOjEsInJmIjoiaHR0cDovL3d3dy5nb29nbGUuY29tL3VybD9zYT10JnJjdD1qJnE9JmVzcmM9cyZzb3VyY2U9d2ViJmNkPTImdmVkPTBDQ1lRRmpBQmFoVUtFd2lkaE5lTXQ5UElBaFhIOFhJS0hVME5BRmsmdXJsPWh0dHA6Ly9zdGFja292ZXJmbG93LmNvbS9xdWVzdGlvbnMvNTc0NTk0L2hvdy1jYW4taS1jcmVhdGUtYW4tZXhlY3V0YWJsZS1qYXItd2l0aC1kZXBlbmRlbmNpZXMtdXNpbmctbWF2ZW4mdXNnPUFGUWpDTkVIY3ZIc3pxZk5zU0dDQ3l0Y29WYk56Um9mUWcmc2lnMj0yYlNjVFM1UXlyV0U5MER6TG03ckl3JmNhZD1yamEiLCJzdCI6ODI3NywidWsiOiJ1ZTEtOWI2YTMzM2QwMjI5NDA0YmIzMDEzMTU1NTc5NjI2Y2IiLCJ6biI6NDUsInRzIjoxNDQ1NDI1OTEyNzA5LCJiZiI6dHJ1ZSwicG4iOiJhZHplcmsxMzQ0MTc0ODg2In0&s=wtGCcg7K1-VZP8HuiI88b2GrNkU"]
+{display:none !important;}</style>
+    <link rel="apple-touch-icon image_src" href="http://cdn.sstatic.net/stackoverflow/img/apple-touch-icon.png?v=c78bd457575a">
+    <link rel="search" type="application/opensearchdescription+xml" title="Stack Overflow" href="http://stackoverflow.com/opensearch.xml">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:domain" content="stackoverflow.com">
+    <meta property="og:type" content="website">
+    <meta property="og:image" itemprop="image primaryImageOfPage" content="http://cdn.sstatic.net/stackoverflow/img/apple-touch-icon@2.png?v=73d79a89bded&amp;a">
+    <meta name="twitter:title" property="og:title" itemprop="title name" content="force Maven2 to copy dependencies into target/lib">
+    <meta name="twitter:description" property="og:description" itemprop="description" content="How do I get my project's runtime dependencies copied into the target/lib folder?  
+
+As it is right now, after mvn clean install the target folder contains only my project's jar, but none of the ru...">
+    <meta property="og:url" content="http://stackoverflow.com/questions/97640/force-maven2-to-copy-dependencies-into-target-lib">
+    <link rel="canonical" href="http://stackoverflow.com/questions/97640/force-maven2-to-copy-dependencies-into-target-lib">
+
+    
+    
+    <script src="Maven2%20copy%20dependencies_files/quant.js" async=""></script><script src="Maven2%20copy%20dependencies_files/beacon.js" async=""></script><script src="Maven2%20copy%20dependencies_files/analytics.js" async=""></script><script src="Maven2%20copy%20dependencies_files/ados" async="" type="text/javascript"></script><script src="Maven2%20copy%20dependencies_files/ados.js" async="" type="text/javascript"></script><script src="Maven2%20copy%20dependencies_files/jquery.js"></script>
+    <script src="Maven2%20copy%20dependencies_files/stub.js"></script>
+    <link rel="stylesheet" type="text/css" href="Maven2%20copy%20dependencies_files/all.css">
+
+            <link rel="alternate" type="application/atom+xml" title="Feed for question 'force Maven2 to copy dependencies into target/lib'" href="http://stackoverflow.com/feeds/question/97640">
+            <meta name="twitter:app:country" content="US">
+            <meta name="twitter:app:name:iphone" content="Stack Exchange iOS">
+            <meta name="twitter:app:id:iphone" content="871299723">
+            <meta name="twitter:app:url:iphone" content="se-zaphod://stackoverflow.com/questions/97640/force-maven2-to-copy-dependencies-into-target-lib">
+            <meta name="twitter:app:name:ipad" content="Stack Exchange iOS">
+            <meta name="twitter:app:id:ipad" content="871299723">
+            <meta name="twitter:app:url:ipad" content="se-zaphod://stackoverflow.com/questions/97640/force-maven2-to-copy-dependencies-into-target-lib">
+            <meta name="twitter:app:name:googleplay" content="Stack Exchange Android">
+            <meta name="twitter:app:url:googleplay" content="http://stackoverflow.com/questions/97640/force-maven2-to-copy-dependencies-into-target-lib">
+            <meta name="twitter:app:id:googleplay" content="com.stackexchange.marvin">
+        <script>
+        
+            StackExchange.ready(function () {
+                    
+                    StackExchange.using("snippets", function () {
+                        StackExchange.snippets.initSnippetRenderer();
+                    });
+                    
+
+                StackExchange.using("postValidation", function () {
+                    StackExchange.postValidation.initOnBlurAndSubmit($('#post-form'), 2, 'answer');
+                });
+
+                
+                StackExchange.question.init({showAnswerHelp:true,totalCommentCount:4,shownCommentCount:4,highlightColor:'#F4A83D',backgroundColor:'#FFF',questionId:97640});
+
+                styleCode();
+
+                    StackExchange.realtime.subscribeToQuestion('1', '97640');
+                                                                    StackExchange.using("gps", function () { StackExchange.gps.trackOutboundClicks('#content', '.post-text'); });
+
+            });
+        </script>
+
+
+    <script>
+        StackExchange.init({"locale":"en","stackAuthUrl":"https://stackauth.com","serverTime":1445430112,"networkMetaHostname":"meta.stackexchange.com","routeName":"Questions/Show","styleCode":true,"enableUserHovercards":true,"snippets":{"enabled":true,"domain":"stacksnippets.net"},"site":{"name":"Stack Overflow","description":"Q&A for professional and enthusiast programmers","isNoticesTabEnabled":true,"recaptchaPublicKey":"6LdchgIAAAAAAJwGpIzRQSOFaO0pU6s44Xt8aTwc","recaptchaAudioLang":"en","enableNewTagCreationWarning":true,"insertSpaceAfterNameTabCompletion":false,"globalAuthDisabled":true,"nonAsciiTags":true,"enableSocialMediaInSharePopup":true},"user":{"fkey":"8cc43bb57c4b9bd91d9e1c7749429fd3","rep":0,"isAnonymous":true,"isAnonymousNetworkWide":true,"ab":{"anon_popups":{"v":"d","g":2},"profile_integration_signup":{"v":"b","g":1}}}});
+        StackExchange.using.setCacheBreakers({"js/prettify-full.en.js":"f80376afe9b1","js/moderator.en.js":"fa05d92dbab5","js/full-anon.en.js":"69d0d7b4a017","js/full.en.js":"36ba15ef48d9","js/wmd.en.js":"a92fcd8009f3","js/third-party/jquery.autocomplete.min.js":"e5f01e97f7c3","js/third-party/jquery.autocomplete.min.en.js":"","js/mobile.en.js":"f9007a314275","js/help.en.js":"8971d5a1711c","js/tageditor.en.js":"9c54855bf167","js/tageditornew.en.js":"6b9e46017592","js/inline-tag-editing.en.js":"de80429b1816","js/revisions.en.js":"9e897f24d78d","js/review.en.js":"97cdae9df6c7","js/tagsuggestions.en.js":"d1ff9b84abe5","js/post-validation.en.js":"f70111a675e5","js/explore-qlist.en.js":"09aaffd40eb0","js/events.en.js":"94958d0edf9b","js/keyboard-shortcuts.en.js":"48e0995325a1","js/external-editor.en.js":"e14f51ab6446","js/external-editor.en.js":"e14f51ab6446","js/snippet-javascript.en.js":"1034ef6a3153","js/snippet-javascript-codemirror.en.js":"6fdd6c4ccc74"});
+        StackExchange.using("gps", function() {
+             StackExchange.gps.init(true);
+        });
+    </script>
+    
+        <script>
+            StackExchange.ready(function () {
+                $('#nav-tour').click(function () {
+                    StackExchange.using("gps", function() {
+                        StackExchange.gps.track("aboutpage.click", { aboutclick_location: "headermain" }, true);
+                    });
+                });
+            });
+        </script>
+    
+    
+<script src="Maven2%20copy%20dependencies_files/full-anon.js" async=""></script><script src="Maven2%20copy%20dependencies_files/snippet-javascript.js" async=""></script><script src="Maven2%20copy%20dependencies_files/post-validation.js" async=""></script><script src="Maven2%20copy%20dependencies_files/prettify-full.js" async=""></script><script src="Maven2%20copy%20dependencies_files/external-editor.js" async=""></script><script src="Maven2%20copy%20dependencies_files/adFeedback.js" type="text/javascript"></script><link href="Maven2%20copy%20dependencies_files/adFeedback.css" rel="stylesheet"><script src="Maven2%20copy%20dependencies_files/p.js" async=""></script><link href="Maven2%20copy%20dependencies_files/jobs.css" rel="stylesheet" type="text/css"></head>
+<body class="question-page new-topbar">
+    <noscript><div id="noscript-padding"></div></noscript>
+    <div id="notify-container"></div>
+    <div id="overlay-header"></div>
+    <div id="custom-header"></div>
+
+
+
+
+
+<div class="topbar">
+    <div class="topbar-wrapper">
+
+        <div class="js-topbar-dialog-corral">
+
+
+<div class="topbar-dialog siteSwitcher-dialog dno">
+    <div class="header">
+        <h3><a href="http://stackoverflow.com/">current community</a></h3>
+    </div>
+    <div class="modal-content current-site-container">
+        <ul class="current-site">
+                <li>
+                        <div class="related-links">
+                    <a href="http://chat.stackoverflow.com/" class="js-gps-track" data-gps-track="site_switcher.click({ item_type:6 })">chat</a>
+            </div>
+
+
+
+
+    <a href="http://stackoverflow.com/" class="current-site-link site-link js-gps-track" data-id="1" data-gps-track="
+        site_switcher.click({ item_type:3 })">
+        <div class="site-icon favicon favicon-stackoverflow" title="Stack Overflow"></div>
+        Stack Overflow
+    </a>
+
+                </li>
+                <li class="related-site">
+                        <div class="L-shaped-icon-container">
+        <span class="L-shaped-icon"></span>
+    </div>
+
+                    
+
+
+
+    <a href="http://meta.stackoverflow.com/" class="site-link js-gps-track" data-id="552" data-gps-track="
+            site.switch({ target_site:552, item_type:3 }),
+        site_switcher.click({ item_type:4 })">
+        <div class="site-icon favicon favicon-stackoverflowmeta" title="Meta Stack Overflow"></div>
+        Meta Stack Overflow
+    </a>
+
+                </li>
+                            <li class="related-site">
+                        <div class="L-shaped-icon-container">
+        <span class="L-shaped-icon"></span>
+    </div>
+
+                    <a class="site-link js-gps-track" href="http://careers.stackoverflow.com/?utm_source=stackoverflow.com&amp;utm_medium=site-ui&amp;utm_campaign=multicollider" data-gps-track="site_switcher.click({ item_type:9 })">
+                        <div class="site-icon favicon favicon-careers" title="Stack Overflow Careers"></div>
+                        Stack Overflow Careers
+                    </a>
+                </li>
+        </ul>
+    </div>
+    
+    <div class="header" id="your-communities-header">
+        <h3>
+your communities        </h3>
+            
+    </div>
+    <div class="modal-content" id="your-communities-section">
+            
+            <div class="call-to-login">
+<a href="https://stackoverflow.com/users/signup?ssrc=site_switcher&amp;returnurl=http%3a%2f%2fstackoverflow.com%2fquestions%2f97640%2fforce-maven2-to-copy-dependencies-into-target-lib" class="login-link js-gps-track" data-gps-track="site_switcher.click({ item_type:10 })">Sign up</a> or <a href="https://stackoverflow.com/users/login?ssrc=site_switcher&amp;returnurl=http%3a%2f%2fstackoverflow.com%2fquestions%2f97640%2fforce-maven2-to-copy-dependencies-into-target-lib" class="login-link js-gps-track" data-gps-track="site_switcher.click({ item_type:11 })">log in</a> to customize your list.
+            </div>
+    </div>
+    
+    <div class="header">
+        <h3><a href="http://stackexchange.com/sites">more stack exchange communities</a></h3>
+        <a href="http://blog.stackoverflow.com/" class="fr">company blog</a>
+    </div>
+    <div class="modal-content">
+            <div class="child-content"></div>
+    </div>
+</div>
+        </div>
+
+        <div class="network-items">
+
+            <a href="http://stackexchange.com/" class="topbar-icon icon-site-switcher yes-hover js-site-switcher-button js-gps-track" data-gps-track="site_switcher.show" title="A list of all 150 Stack Exchange sites">
+                <span class="hidden-text">Stack Exchange</span>
+            </a>
+
+    <a href="#" class="topbar-icon icon-inbox yes-hover js-inbox-button" title="Recent inbox messages">
+        <span class="hidden-text">Inbox</span>
+        <span class="unread-count" style="display:none"></span>
+    </a>
+    <a href="#" class="topbar-icon icon-achievements yes-hover js-achievements-button" data-unread-class="" title="Recent achievements: reputation, badges, and privileges earned">
+        <span class="hidden-text">Reputation and Badges</span>
+        <span class="unread-count" style="display:none">
+            
+        </span>
+    </a>
+        </div>
+
+        <div class="topbar-links">
+
+                <div class="links-container">
+                <span class="topbar-menu-links">
+                                    <a href="https://stackoverflow.com/users/signup?ssrc=head&amp;returnurl=http%3a%2f%2fstackoverflow.com%2fquestions%2f97640%2fforce-maven2-to-copy-dependencies-into-target-lib" class="login-link">sign up</a>
+                                <a href="https://stackoverflow.com/users/login?ssrc=head&amp;returnurl=http%3a%2f%2fstackoverflow.com%2fquestions%2f97640%2fforce-maven2-to-copy-dependencies-into-target-lib" class="login-link">log in</a>
+
+                        <a href="http://stackoverflow.com/tour">tour</a>
+                            <a href="#" class="icon-help js-help-button" title="Help Center and other resources">
+        help
+        <span class="triangle"></span>
+    </a>
+    <div class="topbar-dialog help-dialog js-help-dialog dno">
+        <div class="modal-content">
+            <ul>
+                                    <li>
+                        <a href="http://stackoverflow.com/tour" class="js-gps-track" data-gps-track="help_popup.click({ item_type:1 })">
+                            Tour
+                            <span class="item-summary">
+                                Start here for a quick overview of the site
+                            </span>
+                        </a>
+                    </li>
+                <li>
+                    <a href="http://stackoverflow.com/help" class="js-gps-track" data-gps-track="help_popup.click({ item_type:4 })">
+                        Help Center
+                        <span class="item-summary">
+                            Detailed answers to any questions you might have
+                        </span>
+                    </a>
+                </li>
+                    <li>
+                        <a href="http://meta.stackoverflow.com/" class="js-gps-track" data-gps-track="help_popup.click({ item_type:2 })">
+                            Meta
+                            <span class="item-summary">
+                                Discuss the workings and policies of this site
+                            </span>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+
+                            <a href="http://careers.stackoverflow.com/?utm_source=stackoverflow.com&amp;utm_medium=site-ui&amp;utm_campaign=anon-topbar">stack overflow careers</a>
+                    </span>
+                </div>
+
+            <div class="search-container">
+                <form id="search" action="/search" method="get" autocomplete="off">
+                    <input name="q" placeholder="search" tabindex="1" autocomplete="off" maxlength="240" type="text">
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+    <script>
+        StackExchange.ready(function() { StackExchange.topbar.init(); });
+    </script>
+
+    <div class="container">
+        <div id="header">
+            <br class="cbt">
+            <div id="hlogo">
+                <a href="http://stackoverflow.com/">
+                    Stack Overflow
+                </a>
+            </div>
+            <div id="hmenus">
+                <div class="nav mainnavs">
+                    <ul>
+                        <li class="youarehere"><a id="nav-questions" href="http://stackoverflow.com/questions">Questions</a></li>
+                        <li><a id="nav-tags" href="http://stackoverflow.com/tags">Tags</a></li>
+                        <li><a id="nav-users" href="http://stackoverflow.com/users">Users</a></li>
+                        <li><a id="nav-badges" href="http://stackoverflow.com/help/badges">Badges</a></li>
+                        <li><a id="nav-unanswered" href="http://stackoverflow.com/unanswered">Unanswered</a></li>
+                    </ul>
+                </div>
+                <div class="nav askquestion">
+                    <ul>
+                        <li>
+                            <a id="nav-askquestion" href="http://stackoverflow.com/questions/ask">Ask Question</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+
+
+
+        <div id="content" class="snippet-hidden">
+            
+
+<div itemscope="" itemtype="http://schema.org/Question">
+    <link itemprop="image" href="http://cdn.sstatic.net/stackoverflow/img/apple-touch-icon.png?v=c78bd457575a">
+			<!--googleoff: all-->
+
+<div id="herobox-mini">
+    <div id="hero-content">
+        <span id="controls">
+                <a href="http://stackoverflow.com/users/signup?ssrc=hero&amp;returnurl=http%3a%2f%2fstackoverflow.com%2fquestions%2f97640%2fforce-maven2-to-copy-dependencies-into-target-lib" id="tell-me-more" class="button">Sign up</a>
+            <span id="close"><a title="click to dismiss">×</a></span>
+        </span>
+        <div id="blurb">
+            Stack Overflow is a question and answer site for professional and enthusiast programmers. It's 100% free.
+        </div>        
+    </div>
+    <script>
+        StackExchange.ready(function() {
+            var clickSource = $("body").attr("class") + '-mini';
+            var location = 0;
+            if ($("body").hasClass("questions-page")) {
+                clickSource = 'questionpagemini';
+                location = 2;
+            } else if ($("body").hasClass("question-page")) {
+                clickSource = 'questionpagemini';
+                location = 2;
+            } else if ($("body").hasClass("home-page")) {
+                clickSource = 'homepagemini';
+                location = 4;
+            }
+
+            $('#tell-me-more').click(function () {
+                StackExchange.using("gps", function () {
+                    StackExchange.gps.track("hero.action", { hero_action_type: 'cta', location: location }, true);
+                });
+            });
+            $('#herobox-mini #close').click(function () {
+                StackExchange.using("gps", function () {
+                    StackExchange.gps.track("hero.action", { hero_action_type: "close", location: location }, true);
+                });
+                $.cookie("hero", "none", { path: "/", expires: 365 });
+                var $hero = $("#herobox-mini");
+                $hero.slideUp('fast', function () { $hero.remove(); });
+                return false;
+            });
+        });
+    </script>
+</div>
+			<!--googleon: all-->
+			<div id="question-header">
+                <h1 itemprop="name"><a href="http://stackoverflow.com/questions/97640/force-maven2-to-copy-dependencies-into-target-lib" class="question-hyperlink">force Maven2 to copy dependencies into target/lib</a></h1>
+		</div>
+			<div id="mainbar">
+
+			
+
+<div class="question" data-questionid="97640" id="question">
+
+    <script>
+                var ados = ados || {}; ados.run = ados.run || [];
+                ados.run.push(function () { ados_add_placement(22,8277,"adzerk453233583",4).setZone(43); });
+            </script>
+            <div style="display: none ! important;" class="everyonelovesstackoverflow" id="adzerk453233583"><a href="http://engine.adzerk.net/r?e=eyJhdiI6NDE0LCJhdCI6NCwiYnQiOjAsImNtIjoxODc5NTQsImNoIjoxMTc4LCJjayI6e30sImNyIjo2NjQ0MjQsImRpIjoiYTI5MzQ5OTJhZjFhNDBiYzhiOTA1NTRkMDk3YzQxYTAiLCJkbSI6MSwiZmMiOjY4NjI4MywiZmwiOjQxNTQ4NSwiaXAiOiI4Ni41Ny4xNDQuOTkiLCJrdyI6ImphdmEsbWF2ZW4tMixjb3B5LHJ1bnRpbWUsZGVwZW5kZW5jaWVzIiwibnciOjIyLCJwYyI6MCwiZWMiOjAsInByIjoxNjA0LCJydCI6MSwicmYiOiJodHRwOi8vd3d3Lmdvb2dsZS5jb20vdXJsP3NhPXQmcmN0PWomcT0mZXNyYz1zJnNvdXJjZT13ZWImY2Q9MyZ2ZWQ9MENDOFFGakFDYWhVS0V3aWRoTmVNdDlQSUFoWEg4WElLSFUwTkFGayZ1cmw9aHR0cDovL3N0YWNrb3ZlcmZsb3cuY29tL3F1ZXN0aW9ucy85NzY0MC9mb3JjZS1tYXZlbjItdG8tY29weS1kZXBlbmRlbmNpZXMtaW50by10YXJnZXQtbGliJnVzZz1BRlFqQ05HbWhDc05uNDRZdXM4akpVaW9uTlZ2RmdtaXlnJnNpZzI9ZzAteWZOY2l1eUk0bWlMS1JpcXNTZyZjYWQ9cmphIiwic3QiOjgyNzcsInVrIjoidWUxLTliNmEzMzNkMDIyOTQwNGJiMzAxMzE1NTU3OTYyNmNiIiwiem4iOjQzLCJ0cyI6MTQ0NTQzMDExNDIxMiwiYmYiOnRydWUsInBuIjoiYWR6ZXJrNDUzMjMzNTgzIiwidXIiOiJodHRwOi8vd3d3LmZhY2Vib29rLmNvbS9zdGFja2V4Y2hhbmdlIn0&amp;s=x_ZlNbz3g83eCCCLdSDCTl7Hk1s" rel="nofollow" target="_blank" title=""><img style="display: none ! important;" src="Maven2%20copy%20dependencies_files/08eaa5c81e4346a58bf2cc7e601baf4d.png" title="" alt="" height="90" border="0" width="728"></a><img src="Maven2%20copy%20dependencies_files/i_002.gif" style="position: absolute; display: none ! important;" height="0px" border="0" width="0px"></div>    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+        <input name="_id_" value="97640" type="hidden">
+        <a class="vote-up-off" title="This question shows research effort; it is useful and clear">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">144</span>
+        <a class="vote-down-off" title="This question does not show any research effort; it is unclear or not useful">down vote</a>
+
+        <a class="star-off" href="#" title="This is a favorite question (click again to undo)">favorite</a>
+        <div class="favoritecount"><b>56</b></div>
+
+
+</div>
+
+            </td>
+            
+<td class="postcell">
+<div>
+    <div class="post-text" itemprop="text">
+
+<p>How do I get my project's runtime dependencies copied into the <code>target/lib</code> folder?  </p>
+
+<p>As it is right now, after <code>mvn clean install</code> the <code>target</code> folder contains only my project's jar, but none of the runtime dependencies.</p>
+    </div>
+    <div class="post-taglist">
+        <a href="http://stackoverflow.com/questions/tagged/java" class="post-tag js-gps-track" title="show questions tagged 'java'" rel="tag">java</a> <a href="http://stackoverflow.com/questions/tagged/maven-2" class="post-tag js-gps-track" title="show questions tagged 'maven-2'" rel="tag">maven-2</a> <a href="http://stackoverflow.com/questions/tagged/copy" class="post-tag js-gps-track" title="show questions tagged 'copy'" rel="tag">copy</a> <a href="http://stackoverflow.com/questions/tagged/runtime" class="post-tag js-gps-track" title="show questions tagged 'runtime'" rel="tag">runtime</a> <a href="http://stackoverflow.com/questions/tagged/dependencies" class="post-tag js-gps-track" title="show questions tagged 'dependencies'" rel="tag">dependencies</a> 
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/q/97640" title="short permalink to this question" class="short-link" id="link-post-97640">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/97640/edit" class="suggest-edit-post" title="">improve this question</a></div>        
+    </td>
+    <td class="post-signature" align="right">
+<div class="user-info ">
+    <div class="user-action-time">
+        <a href="http://stackoverflow.com/posts/97640/revisions" title="show all edits to this post">edited <span title="2014-05-20 03:33:03Z" class="relativetime">May 20 '14 at 3:33</span></a>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/1521627/tuan-dang"><div class="gravatar-wrapper-32"><img src="Maven2%20copy%20dependencies_files/Lf9w1.jpg" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/1521627/tuan-dang">Tuan Dang</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">1,924</span><span title="1 gold badge"><span class="badge1"></span><span class="badgecount">1</span></span><span title="14 silver badges"><span class="badge2"></span><span class="badgecount">14</span></span><span title="35 bronze badges"><span class="badge3"></span><span class="badgecount">35</span></span>
+    </div>
+</div>    </td>
+    <td class="post-signature owner">
+        <div class="user-info ">
+    <div class="user-action-time">
+        asked <span title="2008-09-18 22:26:09Z" class="relativetime">Sep 18 '08 at 22:26</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/18320/michael"><div class="gravatar-wrapper-32"><img src="Maven2%20copy%20dependencies_files/1c20fd2459d6d0eb7902923371f6c8d4.png" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/18320/michael">Michael</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">784</span><span title="2 gold badges"><span class="badge1"></span><span class="badgecount">2</span></span><span title="7 silver badges"><span class="badge2"></span><span class="badgecount">7</span></span><span title="5 bronze badges"><span class="badge3"></span><span class="badgecount">5</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</div>
+</td>
+        </tr>
+                
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-97640" class="comments ">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+
+
+    <tr id="comment-15731" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Why do you need this ? What is the type of your maven project ? jar ?</span>
+                    –&nbsp;<a href="http://stackoverflow.com/users/11897/alexandre-victoor" title="2010 reputation" class="comment-user">Alexandre Victoor</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment15731_97640"><span title="2008-09-18 22:34:28Z" class="relativetime-clean">Sep 18 '08 at 22:34</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-15792" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">The type of my maven project 
+is JAR.  I need this because there are a lot of dependencies and I'm 
+trying deploy the jar as an executable.</span>
+                    –&nbsp;<a href="http://stackoverflow.com/users/18320/michael" title="784 reputation" class="comment-user owner">Michael</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment15792_97640"><span title="2008-09-18 22:56:07Z" class="relativetime-clean">Sep 18 '08 at 22:56</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-576925" class="comment ">
+        <td class="comment-actions">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                <span title="number of 'useful comment' votes received" class="cool">3</span>
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Are you using assemblies ?</span>
+                    –&nbsp;<a href="http://stackoverflow.com/users/4064/frederic-morin" title="2530 reputation" class="comment-user">Frederic Morin</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment576925_97640"><span title="2009-04-19 07:35:29Z" class="relativetime-clean">Apr 19 '09 at 7:35</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-53852214" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Caution with assemblies - if you have overlapping packages/classes between the deps, you will probably have a bad time.</span>
+                    –&nbsp;<a href="http://stackoverflow.com/users/842832/demaniak" title="642 reputation" class="comment-user">demaniak</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment53852214_97640"><span title="2015-10-08 11:36:31Z" class="relativetime-clean">Oct 8 at 11:36</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+                </tbody>
+		    </table>
+	    </div>
+
+        <div id="comments-link-97640" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid answering questions in comments.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="#" onclick=""></a>
+        </div>         
+    </td>
+</tr>        </tbody></table>
+</div>
+
+			<div id="answers">
+
+				<a name="tab-top"></a>
+				<div id="answers-header">
+					<div class="subheader answers-subheader">
+						<h2>
+								13 Answers
+                                <span style="display:none;" itemprop="answerCount">13</span>
+						</h2>
+						<div>
+							<div id="tabs">
+        <a href="http://stackoverflow.com/questions/97640/force-maven2-to-copy-dependencies-into-target-lib?answertab=active#tab-top" data-nav-xhref="" title="Answers with the latest activity first" data-value="active">active</a>
+        <a href="http://stackoverflow.com/questions/97640/force-maven2-to-copy-dependencies-into-target-lib?answertab=oldest#tab-top" data-nav-xhref="" title="Answers in the order they were provided" data-value="oldest">oldest</a>
+        <a class="youarehere" href="http://stackoverflow.com/questions/97640/force-maven2-to-copy-dependencies-into-target-lib?answertab=votes#tab-top" data-nav-xhref="" title="Answers with the highest score first" data-value="votes">votes</a>
+</div>
+						</div>
+					</div>    
+				</div>    
+
+
+
+
+  
+<a name="996915"></a>
+<div id="answer-996915" class="answer" data-answerid="996915" itemscope="" itemtype="http://schema.org/Answer">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+        <input name="_id_" value="996915" type="hidden">
+        <a class="vote-up-off" title="This answer is useful">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">150</span>
+        <a class="vote-down-off" title="This answer is not useful">down vote</a>
+
+
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p>This works for me:</p>
+
+<pre style="" class="lang-xml prettyprint prettyprinted"><code><span class="tag">&lt;project&gt;</span><span class="pln">
+  ...
+  </span><span class="tag">&lt;profiles&gt;</span><span class="pln">
+    </span><span class="tag">&lt;profile&gt;</span><span class="pln">
+      </span><span class="tag">&lt;id&gt;</span><span class="pln">qa</span><span class="tag">&lt;/id&gt;</span><span class="pln">
+      </span><span class="tag">&lt;build&gt;</span><span class="pln">
+        </span><span class="tag">&lt;plugins&gt;</span><span class="pln">
+          </span><span class="tag">&lt;plugin&gt;</span><span class="pln">
+            </span><span class="tag">&lt;artifactId&gt;</span><span class="pln">maven-dependency-plugin</span><span class="tag">&lt;/artifactId&gt;</span><span class="pln">
+            </span><span class="tag">&lt;executions&gt;</span><span class="pln">
+              </span><span class="tag">&lt;execution&gt;</span><span class="pln">
+                </span><span class="tag">&lt;phase&gt;</span><span class="pln">install</span><span class="tag">&lt;/phase&gt;</span><span class="pln">
+                </span><span class="tag">&lt;goals&gt;</span><span class="pln">
+                  </span><span class="tag">&lt;goal&gt;</span><span class="pln">copy-dependencies</span><span class="tag">&lt;/goal&gt;</span><span class="pln">
+                </span><span class="tag">&lt;/goals&gt;</span><span class="pln">
+                </span><span class="tag">&lt;configuration&gt;</span><span class="pln">
+                  </span><span class="tag">&lt;outputDirectory&gt;</span><span class="pln">${project.build.directory}/lib</span><span class="tag">&lt;/outputDirectory&gt;</span><span class="pln">
+                </span><span class="tag">&lt;/configuration&gt;</span><span class="pln">
+              </span><span class="tag">&lt;/execution&gt;</span><span class="pln">
+            </span><span class="tag">&lt;/executions&gt;</span><span class="pln">
+          </span><span class="tag">&lt;/plugin&gt;</span><span class="pln">
+        </span><span class="tag">&lt;/plugins&gt;</span><span class="pln">
+      </span><span class="tag">&lt;/build&gt;</span><span class="pln">
+    </span><span class="tag">&lt;/profile&gt;</span><span class="pln">
+  </span><span class="tag">&lt;/profiles&gt;</span><span class="pln">
+</span><span class="tag">&lt;/project&gt;</span></code></pre>
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/996915" title="short permalink to this answer" class="short-link" id="link-post-996915">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/996915/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+    <td class="post-signature" align="right">
+<div class="user-info user-hover">
+    <div class="user-action-time">
+        <a href="http://stackoverflow.com/posts/996915/revisions" title="show all edits to this post">edited <span title="2014-08-22 06:49:33Z" class="relativetime">Aug 22 '14 at 6:49</span></a>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/474189/duncan"><div class="gravatar-wrapper-32"><img src="Maven2%20copy%20dependencies_files/32b712ec4f7dcc2e8a6907b9903aa8ba.jpg" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/474189/duncan">Duncan</a><br>
+        <span class="reputation-score" title="reputation score 31709" dir="ltr">31.7k</span><span title="7 gold badges"><span class="badge1"></span><span class="badgecount">7</span></span><span title="58 silver badges"><span class="badge2"></span><span class="badgecount">58</span></span><span title="105 bronze badges"><span class="badge3"></span><span class="badgecount">105</span></span>
+    </div>
+</div>    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2009-06-15 15:58:18Z" class="relativetime">Jun 15 '09 at 15:58</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/4052/georgy-bolyuba"><div class="gravatar-wrapper-32"><img src="Maven2%20copy%20dependencies_files/0a65a0ab05ba6e3d573ec9bd5d53faa9.jpg" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/4052/georgy-bolyuba">Georgy Bolyuba</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">4,527</span><span title="6 gold badges"><span class="badge1"></span><span class="badgecount">6</span></span><span title="20 silver badges"><span class="badge2"></span><span class="badgecount">20</span></span><span title="28 bronze badges"><span class="badge3"></span><span class="badgecount">28</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+            
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-996915" class="comments ">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+
+
+    <tr id="comment-18061353" class="comment ">
+        <td class="comment-actions">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                <span title="number of 'useful comment' votes received" class="cool">3</span>
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">If you want this to happen 
+all the time, remove the &lt;profiles&gt;...&lt;profile&gt; wrappers and
+ make the &lt;build&gt; tag be just under &lt;project&gt;</span>
+                    –&nbsp;<a href="http://stackoverflow.com/users/142996/dan-halbert" title="1218 reputation" class="comment-user">Dan Halbert</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment18061353_996915"><span title="2012-11-06 15:34:12Z" class="relativetime-clean">Nov 6 '12 at 15:34</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-18579127" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">@Georgy this does not coy the jars in lib/ , but includes the classes in the compiled project</span>
+                    –&nbsp;<a href="http://stackoverflow.com/users/9425/midhat" title="9129 reputation" class="comment-user">Midhat</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment18579127_996915"><span title="2012-11-26 09:04:32Z" class="relativetime-clean">Nov 26 '12 at 9:04</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-26571780" class="comment ">
+        <td class="comment-actions">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                <span title="number of 'useful comment' votes received" class="cool">4</span>
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">This is fine, but it is copying test dependencies too. I add to myself the <code>excludeScope</code> option (<a href="http://maven.apache.org/plugins/maven-dependency-plugin/copy-dependencies-mojo.html" rel="nofollow">maven.apache.org/plugins/maven-dependency-plugin/…</a>).</span>
+                    –&nbsp;<a href="http://stackoverflow.com/users/582789/alfonso-nishikawa" title="927 reputation" class="comment-user">Alfonso Nishikawa</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment26571780_996915"><span title="2013-08-09 08:44:37Z" class="relativetime-clean">Aug 9 '13 at 8:44</span></a></span>
+                    <span class="edited-yes" title="this comment was edited 1 time"></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-32814721" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Work well but it is not required to place the build tag inside the profile tags.</span>
+                    –&nbsp;<a href="http://stackoverflow.com/users/1838095/julien-breneliere" title="168 reputation" class="comment-user">Julien BRENELIERE</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment32814721_996915"><span title="2014-02-11 13:47:23Z" class="relativetime-clean">Feb 11 '14 at 13:47</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+                </tbody>
+		    </table>
+	    </div>
+
+        <div id="comments-link-996915" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="#" onclick=""></a>
+        </div>         
+    </td>
+</tr>    </tbody></table>
+</div>
+<script>
+                var ados = ados || {}; ados.run = ados.run || [];
+                ados.run.push(function () { ados_add_placement(22,8277,"adzerk122665941",4).setZone(44); });
+            </script>
+            <div style="display: none ! important;" class="everyonelovesstackoverflow" id="adzerk122665941"><a href="http://engine.adzerk.net/r?e=eyJhdiI6NDE0LCJhdCI6NCwiYnQiOjAsImNtIjoxODY2MjQsImNoIjoxMTc4LCJjayI6e30sImNyIjo2ODQyOTgsImRpIjoiZWNiOTBiYzFkYTBlNDliMGJjZWU3MTU2ODM2MGNiYjMiLCJkbSI6MSwiZmMiOjcwODQ1MiwiZmwiOjQzMTc4MCwiaXAiOiI4Ni41Ny4xNDQuOTkiLCJrdyI6ImphdmEsbWF2ZW4tMixjb3B5LHJ1bnRpbWUsZGVwZW5kZW5jaWVzIiwibnciOjIyLCJwYyI6MCwiZWMiOjAsInByIjoxNjA0LCJydCI6MSwicmYiOiJodHRwOi8vd3d3Lmdvb2dsZS5jb20vdXJsP3NhPXQmcmN0PWomcT0mZXNyYz1zJnNvdXJjZT13ZWImY2Q9MyZ2ZWQ9MENDOFFGakFDYWhVS0V3aWRoTmVNdDlQSUFoWEg4WElLSFUwTkFGayZ1cmw9aHR0cDovL3N0YWNrb3ZlcmZsb3cuY29tL3F1ZXN0aW9ucy85NzY0MC9mb3JjZS1tYXZlbjItdG8tY29weS1kZXBlbmRlbmNpZXMtaW50by10YXJnZXQtbGliJnVzZz1BRlFqQ05HbWhDc05uNDRZdXM4akpVaW9uTlZ2RmdtaXlnJnNpZzI9ZzAteWZOY2l1eUk0bWlMS1JpcXNTZyZjYWQ9cmphIiwic3QiOjgyNzcsInVrIjoidWUxLTliNmEzMzNkMDIyOTQwNGJiMzAxMzE1NTU3OTYyNmNiIiwiem4iOjQ0LCJ0cyI6MTQ0NTQzMDExNDIxNCwiYmYiOnRydWUsInBuIjoiYWR6ZXJrMTIyNjY1OTQxIiwidXIiOiJodHRwOi8vY2FyZWVycy5zdGFja292ZXJmbG93LmNvbS9wcm9kdWN0cz91dG1fc291cmNlPXN0YWNrb3ZlcmZsb3cuY29tJnV0bV9tZWRpdW09YWQmdXRtX2NhbXBhaWduPWVtcGxveWVycy1zdXBlcmhlcm9lcyZ1dG1fY29udGVudD1tbGItc3VwZXJoZXJvZXMifQ&amp;s=mOAvBUEuLraiTdIklUlblELdJx4" rel="nofollow" target="_blank" title=""><img style="display: none ! important;" src="Maven2%20copy%20dependencies_files/7b03b9d327834757b98b657002b37789.png" title="" alt="" height="90" border="0" width="728"></a><img src="Maven2%20copy%20dependencies_files/i_004.gif" style="position: absolute; display: none ! important;" height="0px" border="0" width="0px"></div>
+  
+<a name="98743"></a>
+<div id="answer-98743" class="answer" data-answerid="98743" itemscope="" itemtype="http://schema.org/Answer">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+        <input name="_id_" value="98743" type="hidden">
+        <a class="vote-up-off" title="This answer is useful">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">54</span>
+        <a class="vote-down-off" title="This answer is not useful">down vote</a>
+
+
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p>The best approach depends on what you want to do:</p>
+
+<ul>
+<li>If you want to bundle your dependencies into a WAR or EAR file, then
+ simply set the packaging type of your project to EAR or WAR. Maven will
+ bundle the dependencies into the right location.</li>
+<li>If you want to create a JAR file that includes your code along with all your dependencies, then use the <a href="http://maven.apache.org/plugins/maven-assembly-plugin/descriptor.html">assembly</a> plugin with the <em>jar-with-dependencies</em> descriptor. Maven will generate a complete JAR file with all your classes plus the classes from any dependencies.</li>
+<li>If you want to simply pull your dependencies into the target directory interactively, then use the <a href="http://maven.apache.org/plugins/maven-dependency-plugin/">dependency</a> plugin to copy your files in.</li>
+<li>If you want to pull in the dependencies for some other type of 
+processing, then you will probably need to generate your own plugin. 
+There are APIs to get the list of dependencies, and their location on 
+disk. You will have to take it from there...</li>
+</ul>
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/98743" title="short permalink to this answer" class="short-link" id="link-post-98743">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/98743/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+    <td class="post-signature" align="right">
+<div class="user-info ">
+    <div class="user-action-time">
+        <a href="http://stackoverflow.com/posts/98743/revisions" title="show all edits to this post">edited <span title="2013-08-29 22:02:29Z" class="relativetime">Aug 29 '13 at 22:02</span></a>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/100464/user100464"><div class="gravatar-wrapper-32"><img src="Maven2%20copy%20dependencies_files/e9f9bb459497b506ded2b14cf67ba30d.jpg" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/100464/user100464">user100464</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">3,406</span><span title="2 gold badges"><span class="badge1"></span><span class="badgecount">2</span></span><span title="14 silver badges"><span class="badge2"></span><span class="badgecount">14</span></span><span title="26 bronze badges"><span class="badge3"></span><span class="badgecount">26</span></span>
+    </div>
+</div>    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2008-09-19 01:45:24Z" class="relativetime">Sep 19 '08 at 1:45</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/5874/john-stauffer"><div class="gravatar-wrapper-32"><img src="Maven2%20copy%20dependencies_files/b5df073daff1b6ce9e77556dd3858c4e.png" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/5874/john-stauffer">John Stauffer</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">7,383</span><span title="8 gold badges"><span class="badge1"></span><span class="badgecount">8</span></span><span title="31 silver badges"><span class="badge2"></span><span class="badgecount">31</span></span><span title="34 bronze badges"><span class="badge3"></span><span class="badgecount">34</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+            
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-98743" class="comments  dno">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+                        <tr><td></td><td></td></tr>
+                </tbody>
+		    </table>
+	    </div>
+
+        <div id="comments-link-98743" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="#" onclick=""></a>
+        </div>         
+    </td>
+</tr>    </tbody></table>
+</div>
+
+  
+<a name="98190"></a>
+<div id="answer-98190" class="answer" data-answerid="98190" itemscope="" itemtype="http://schema.org/Answer">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+        <input name="_id_" value="98190" type="hidden">
+        <a class="vote-up-off" title="This answer is useful">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">26</span>
+        <a class="vote-down-off" title="This answer is not useful">down vote</a>
+
+
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p>Take a look at the <a href="http://maven.apache.org/plugins/maven-dependency-plugin/index.html">Maven dependency plugin</a>, specifically, the <a href="http://maven.apache.org/plugins/maven-dependency-plugin/copy-dependencies-mojo.html">dependency:copy-dependencies goal</a>.  Take a look at <a href="http://maven.apache.org/plugins/maven-dependency-plugin/usage.html">the example</a> under the heading <strong>The dependency:copy-dependencies mojo</strong>.  Set the <strong>outputDirectory</strong> configuration property to ${basedir}/target/lib (I believe, you'll have to test).</p>
+
+<p>Hope this helps.</p>
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/98190" title="short permalink to this answer" class="short-link" id="link-post-98190">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/98190/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info user-hover">
+    <div class="user-action-time">
+        answered <span title="2008-09-19 00:03:12Z" class="relativetime">Sep 19 '08 at 0:03</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/10873/travis-b-hartwell"><div class="gravatar-wrapper-32"><img src="Maven2%20copy%20dependencies_files/285ee64568dfd7f3476eb7b6302372b9.jpg" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/10873/travis-b-hartwell">Travis B. Hartwell</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">2,580</span><span title="14 silver badges"><span class="badge2"></span><span class="badgecount">14</span></span><span title="11 bronze badges"><span class="badge3"></span><span class="badgecount">11</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+            
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-98190" class="comments ">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+
+
+    <tr id="comment-3282699" class="comment ">
+        <td class="comment-actions">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                <span title="number of 'useful comment' votes received" class="warm">7</span>
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Alternatively, you could use ${project.build.directory}/lib rather than ${basedir}/target/lib</span>
+                    –&nbsp;<a href="http://stackoverflow.com/users/101095/cuga" title="7266 reputation" class="comment-user">Cuga</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment3282699_98190"><span title="2010-07-06 14:42:48Z" class="relativetime-clean">Jul 6 '10 at 14:42</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+                </tbody>
+		    </table>
+	    </div>
+
+        <div id="comments-link-98190" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="#" onclick=""></a>
+        </div>         
+    </td>
+</tr>    </tbody></table>
+</div>
+
+  
+<a name="6536190"></a>
+<div id="answer-6536190" class="answer" data-answerid="6536190" itemscope="" itemtype="http://schema.org/Answer">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+        <input name="_id_" value="6536190" type="hidden">
+        <a class="vote-up-off" title="This answer is useful">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">19</span>
+        <a class="vote-down-off" title="This answer is not useful">down vote</a>
+
+
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p>A simple and elegant solution for the case where one needs to copy 
+the dependencies to a target directory without using any other phases of
+ maven (I found this very useful when working with Vaadin).</p>
+
+<p>Complete pom example:</p>
+
+<pre style="" class="lang-xml prettyprint prettyprinted"><code><span class="tag">&lt;project</span><span class="pln"> </span><span class="atn">xmlns</span><span class="pun">=</span><span class="atv">"http://maven.apache.org/POM/4.0.0"</span><span class="pln"> </span><span class="atn">xmlns:xsi</span><span class="pun">=</span><span class="atv">"http://www.w3.org/2001/XMLSchema-instance"</span><span class="pln">
+    </span><span class="atn">xsi:schemaLocation</span><span class="pun">=</span><span class="atv">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"</span><span class="tag">&gt;</span><span class="pln">
+
+    </span><span class="tag">&lt;modelVersion&gt;</span><span class="pln">4.0.0</span><span class="tag">&lt;/modelVersion&gt;</span><span class="pln">
+    </span><span class="tag">&lt;groupId&gt;</span><span class="pln">groupId</span><span class="tag">&lt;/groupId&gt;</span><span class="pln">
+    </span><span class="tag">&lt;artifactId&gt;</span><span class="pln">artifactId</span><span class="tag">&lt;/artifactId&gt;</span><span class="pln">
+    </span><span class="tag">&lt;version&gt;</span><span class="pln">1.0</span><span class="tag">&lt;/version&gt;</span><span class="pln">
+
+    </span><span class="tag">&lt;dependencies&gt;</span><span class="pln">
+        </span><span class="tag">&lt;dependency&gt;</span><span class="pln">
+            </span><span class="tag">&lt;groupId&gt;</span><span class="pln">org.mybatis</span><span class="tag">&lt;/groupId&gt;</span><span class="pln">
+            </span><span class="tag">&lt;artifactId&gt;</span><span class="pln">mybatis-spring</span><span class="tag">&lt;/artifactId&gt;</span><span class="pln">
+            </span><span class="tag">&lt;version&gt;</span><span class="pln">1.1.1</span><span class="tag">&lt;/version&gt;</span><span class="pln">
+        </span><span class="tag">&lt;/dependency&gt;</span><span class="pln">
+    </span><span class="tag">&lt;/dependencies&gt;</span><span class="pln">
+
+    </span><span class="tag">&lt;build&gt;</span><span class="pln">
+        </span><span class="tag">&lt;plugins&gt;</span><span class="pln">
+            </span><span class="tag">&lt;plugin&gt;</span><span class="pln">
+                </span><span class="tag">&lt;artifactId&gt;</span><span class="pln">maven-dependency-plugin</span><span class="tag">&lt;/artifactId&gt;</span><span class="pln">
+                    </span><span class="tag">&lt;executions&gt;</span><span class="pln">
+                        </span><span class="tag">&lt;execution&gt;</span><span class="pln">
+                            </span><span class="tag">&lt;phase&gt;</span><span class="pln">process-sources</span><span class="tag">&lt;/phase&gt;</span><span class="pln">
+
+                            </span><span class="tag">&lt;goals&gt;</span><span class="pln">
+                                </span><span class="tag">&lt;goal&gt;</span><span class="pln">copy-dependencies</span><span class="tag">&lt;/goal&gt;</span><span class="pln">
+                            </span><span class="tag">&lt;/goals&gt;</span><span class="pln">
+
+                            </span><span class="tag">&lt;configuration&gt;</span><span class="pln">
+                                </span><span class="tag">&lt;outputDirectory&gt;</span><span class="pln">${targetdirectory}</span><span class="tag">&lt;/outputDirectory&gt;</span><span class="pln">
+                            </span><span class="tag">&lt;/configuration&gt;</span><span class="pln">
+                        </span><span class="tag">&lt;/execution&gt;</span><span class="pln">
+                    </span><span class="tag">&lt;/executions&gt;</span><span class="pln">
+            </span><span class="tag">&lt;/plugin&gt;</span><span class="pln">
+        </span><span class="tag">&lt;/plugins&gt;</span><span class="pln">
+    </span><span class="tag">&lt;/build&gt;</span><span class="pln">
+</span><span class="tag">&lt;/project&gt;</span></code></pre>
+
+<p>Then run <code>mvn process-sources</code></p>
+
+<p>The jar file dependencies can be found in <code>/target/dependency</code></p>
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/6536190" title="short permalink to this answer" class="short-link" id="link-post-6536190">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/6536190/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+    <td class="post-signature" align="right">
+<div class="user-info user-hover">
+    <div class="user-action-time">
+        <a href="http://stackoverflow.com/posts/6536190/revisions" title="show all edits to this post">edited <span title="2014-12-11 09:14:48Z" class="relativetime">Dec 11 '14 at 9:14</span></a>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/474189/duncan"><div class="gravatar-wrapper-32"><img src="Maven2%20copy%20dependencies_files/32b712ec4f7dcc2e8a6907b9903aa8ba.jpg" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/474189/duncan">Duncan</a><br>
+        <span class="reputation-score" title="reputation score 31709" dir="ltr">31.7k</span><span title="7 gold badges"><span class="badge1"></span><span class="badgecount">7</span></span><span title="58 silver badges"><span class="badge2"></span><span class="badgecount">58</span></span><span title="105 bronze badges"><span class="badge3"></span><span class="badgecount">105</span></span>
+    </div>
+</div>    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2011-06-30 14:16:07Z" class="relativetime">Jun 30 '11 at 14:16</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/453708/ruhsuzbaykus"><div class="gravatar-wrapper-32"><img src="Maven2%20copy%20dependencies_files/6422b0a35df045ea7be21309b3524d4b.jpg" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/453708/ruhsuzbaykus">ruhsuzbaykus</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">5,200</span><span title="2 gold badges"><span class="badge1"></span><span class="badgecount">2</span></span><span title="10 silver badges"><span class="badge2"></span><span class="badgecount">10</span></span><span title="12 bronze badges"><span class="badge3"></span><span class="badgecount">12</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+            
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-6536190" class="comments ">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+
+
+    <tr id="comment-11335160" class="comment ">
+        <td class="comment-actions">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                <span title="number of 'useful comment' votes received" class="cool">1</span>
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">maven-dependency-plugin (goals "copy-dependencies", "unpack") is not supported by m2e. :-(</span>
+                    –&nbsp;<a href="http://stackoverflow.com/users/132610/p-m" title="1002 reputation" class="comment-user">P.M</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment11335160_6536190"><span title="2012-01-27 16:45:10Z" class="relativetime-clean">Jan 27 '12 at 16:45</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-54319349" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">can you change the name of the directory? I tried lib but still it ends in dependency folder</span>
+                    –&nbsp;<a href="http://stackoverflow.com/users/447040/gobliins" title="703 reputation" class="comment-user">Gobliins</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment54319349_6536190"><span title="2015-10-21 12:19:52Z" class="relativetime-clean">1 min ago</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+                </tbody>
+		    </table>
+	    </div>
+
+        <div id="comments-link-6536190" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="#" onclick=""></a>
+        </div>         
+    </td>
+</tr>    </tbody></table>
+</div>
+
+  
+<a name="21641165"></a>
+<div id="answer-21641165" class="answer" data-answerid="21641165" itemscope="" itemtype="http://schema.org/Answer">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+        <input name="_id_" value="21641165" type="hidden">
+        <a class="vote-up-off" title="This answer is useful">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">17</span>
+        <a class="vote-down-off" title="This answer is not useful">down vote</a>
+
+
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<pre style="" class="lang-java prettyprint prettyprinted"><code><span class="pln">mvn install dependency</span><span class="pun">:</span><span class="pln">copy</span><span class="pun">-</span><span class="pln">dependencies </span></code></pre>
+
+<p>Works for me with dependencies directory created in target folder. Like it!</p>
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/21641165" title="short permalink to this answer" class="short-link" id="link-post-21641165">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/21641165/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+    <td class="post-signature" align="right">
+<div class="user-info user-hover">
+    <div class="user-action-time">
+        <a href="http://stackoverflow.com/posts/21641165/revisions" title="show all edits to this post">edited <span title="2014-02-08 02:49:55Z" class="relativetime">Feb 8 '14 at 2:49</span></a>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/887539/dev-null"><div class="gravatar-wrapper-32"><img src="Maven2%20copy%20dependencies_files/d5f95bbe06d89a5b1570d35d735c59fc.jpg" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/887539/dev-null">dev-null</a><br>
+        <span class="reputation-score" title="reputation score 15072" dir="ltr">15.1k</span><span title="4 gold badges"><span class="badge1"></span><span class="badgecount">4</span></span><span title="31 silver badges"><span class="badge2"></span><span class="badgecount">31</span></span><span title="70 bronze badges"><span class="badge3"></span><span class="badgecount">70</span></span>
+    </div>
+</div>    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2014-02-08 02:30:55Z" class="relativetime">Feb 8 '14 at 2:30</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/3286149/user3286149"><div class="gravatar-wrapper-32"><img src="Maven2%20copy%20dependencies_files/433dd1af96fbb8d5e72947672bc81c97.png" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/3286149/user3286149">user3286149</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">171</span><span title="1 silver badge"><span class="badge2"></span><span class="badgecount">1</span></span><span title="2 bronze badges"><span class="badge3"></span><span class="badgecount">2</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+            
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-21641165" class="comments  dno">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+                        <tr><td></td><td></td></tr>
+                </tbody>
+		    </table>
+	    </div>
+
+        <div id="comments-link-21641165" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="#" onclick=""></a>
+        </div>         
+    </td>
+</tr>    </tbody></table>
+</div>
+
+  
+<a name="10395558"></a>
+<div id="answer-10395558" class="answer" data-answerid="10395558" itemscope="" itemtype="http://schema.org/Answer">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+        <input name="_id_" value="10395558" type="hidden">
+        <a class="vote-up-off" title="This answer is useful">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">14</span>
+        <a class="vote-down-off" title="This answer is not useful">down vote</a>
+
+
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p>Try something like this:</p>
+
+<pre style="" class="lang-xml prettyprint prettyprinted"><code><span class="tag">&lt;plugin&gt;</span><span class="pln">
+</span><span class="tag">&lt;groupId&gt;</span><span class="pln">org.apache.maven.plugins</span><span class="tag">&lt;/groupId&gt;</span><span class="pln">
+</span><span class="tag">&lt;artifactId&gt;</span><span class="pln">maven-jar-plugin</span><span class="tag">&lt;/artifactId&gt;</span><span class="pln">
+</span><span class="tag">&lt;version&gt;</span><span class="pln">2.4</span><span class="tag">&lt;/version&gt;</span><span class="pln">
+</span><span class="tag">&lt;configuration&gt;</span><span class="pln">
+    </span><span class="tag">&lt;archive&gt;</span><span class="pln">
+        </span><span class="tag">&lt;manifest&gt;</span><span class="pln">  
+            </span><span class="tag">&lt;addClasspath&gt;</span><span class="pln">true</span><span class="tag">&lt;/addClasspath&gt;</span><span class="pln">
+            </span><span class="tag">&lt;classpathPrefix&gt;</span><span class="pln">lib/</span><span class="tag">&lt;/classpathPrefix&gt;</span><span class="pln">
+            </span><span class="tag">&lt;mainClass&gt;</span><span class="pln">MainClass</span><span class="tag">&lt;/mainClass&gt;</span><span class="pln">
+        </span><span class="tag">&lt;/manifest&gt;</span><span class="pln">
+    </span><span class="tag">&lt;/archive&gt;</span><span class="pln">
+    </span><span class="tag">&lt;/configuration&gt;</span><span class="pln">
+</span><span class="tag">&lt;/plugin&gt;</span><span class="pln">
+</span><span class="tag">&lt;plugin&gt;</span><span class="pln">
+    </span><span class="tag">&lt;groupId&gt;</span><span class="pln">org.apache.maven.plugins</span><span class="tag">&lt;/groupId&gt;</span><span class="pln">
+    </span><span class="tag">&lt;artifactId&gt;</span><span class="pln">maven-dependency-plugin</span><span class="tag">&lt;/artifactId&gt;</span><span class="pln">
+    </span><span class="tag">&lt;version&gt;</span><span class="pln">2.4</span><span class="tag">&lt;/version&gt;</span><span class="pln">
+    </span><span class="tag">&lt;executions&gt;</span><span class="pln">
+        </span><span class="tag">&lt;execution&gt;</span><span class="pln">
+            </span><span class="tag">&lt;id&gt;</span><span class="pln">copy</span><span class="tag">&lt;/id&gt;</span><span class="pln">
+            </span><span class="tag">&lt;phase&gt;</span><span class="pln">install</span><span class="tag">&lt;/phase&gt;</span><span class="pln">
+            </span><span class="tag">&lt;goals&gt;</span><span class="pln">
+                </span><span class="tag">&lt;goal&gt;</span><span class="pln">copy-dependencies</span><span class="tag">&lt;/goal&gt;</span><span class="pln">
+            </span><span class="tag">&lt;/goals&gt;</span><span class="pln">
+            </span><span class="tag">&lt;configuration&gt;</span><span class="pln">
+                </span><span class="tag">&lt;outputDirectory&gt;</span><span class="pln">
+                    ${project.build.directory}/lib
+                </span><span class="tag">&lt;/outputDirectory&gt;</span><span class="pln">
+            </span><span class="tag">&lt;/configuration&gt;</span><span class="pln">
+        </span><span class="tag">&lt;/execution&gt;</span><span class="pln">
+    </span><span class="tag">&lt;/executions&gt;</span><span class="pln">
+</span><span class="tag">&lt;/plugin&gt;</span></code></pre>
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/10395558" title="short permalink to this answer" class="short-link" id="link-post-10395558">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/10395558/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+    <td class="post-signature" align="right">
+<div class="user-info user-hover">
+    <div class="user-action-time">
+        <a href="http://stackoverflow.com/posts/10395558/revisions" title="show all edits to this post">edited <span title="2014-12-11 09:14:20Z" class="relativetime">Dec 11 '14 at 9:14</span></a>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/474189/duncan"><div class="gravatar-wrapper-32"><img src="Maven2%20copy%20dependencies_files/32b712ec4f7dcc2e8a6907b9903aa8ba.jpg" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/474189/duncan">Duncan</a><br>
+        <span class="reputation-score" title="reputation score 31709" dir="ltr">31.7k</span><span title="7 gold badges"><span class="badge1"></span><span class="badgecount">7</span></span><span title="58 silver badges"><span class="badge2"></span><span class="badgecount">58</span></span><span title="105 bronze badges"><span class="badge3"></span><span class="badgecount">105</span></span>
+    </div>
+</div>    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2012-05-01 08:57:47Z" class="relativetime">May 1 '12 at 8:57</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/1075955/adjablon"><div class="gravatar-wrapper-32"><img src="Maven2%20copy%20dependencies_files/433dfe63cbeda7725b0925039b67b036.png" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/1075955/adjablon">adjablon</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">324</span><span title="2 silver badges"><span class="badge2"></span><span class="badgecount">2</span></span><span title="9 bronze badges"><span class="badge3"></span><span class="badgecount">9</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+            
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-10395558" class="comments ">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+
+
+    <tr id="comment-29529360" class="comment ">
+        <td class="comment-actions">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                <span title="number of 'useful comment' votes received" class="cool">1</span>
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">what is the maven command to run this ?</span>
+                    –&nbsp;<a href="http://stackoverflow.com/users/2210667/thomas" title="979 reputation" class="comment-user">Thomas</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment29529360_10395558"><span title="2013-11-08 08:58:59Z" class="relativetime-clean">Nov 8 '13 at 8:58</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+                </tbody>
+		    </table>
+	    </div>
+
+        <div id="comments-link-10395558" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="#" onclick=""></a>
+        </div>         
+    </td>
+</tr>    </tbody></table>
+</div>
+
+  
+<a name="25441276"></a>
+<div id="answer-25441276" class="answer" data-answerid="25441276" itemscope="" itemtype="http://schema.org/Answer">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+        <input name="_id_" value="25441276" type="hidden">
+        <a class="vote-up-off" title="This answer is useful">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">9</span>
+        <a class="vote-down-off" title="This answer is not useful">down vote</a>
+
+
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p>If you want to do this on an occasional basis (and thus don't want to change your POM), try this command-line:</p>
+
+<pre>mvn dependency:copy-dependencies -DoutputDirectory=${project.build.directory}/lib</pre>
+
+<p>If you omit the <a href="http://maven.apache.org/plugins/maven-dependency-plugin/copy-dependencies-mojo.html#outputDirectory">last argument</a>, the dependences are placed in <code>target/dependencies</code>.</p>
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/25441276" title="short permalink to this answer" class="short-link" id="link-post-25441276">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/25441276/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info user-hover">
+    <div class="user-action-time">
+        answered <span title="2014-08-22 06:59:24Z" class="relativetime">Aug 22 '14 at 6:59</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/474189/duncan"><div class="gravatar-wrapper-32"><img src="Maven2%20copy%20dependencies_files/32b712ec4f7dcc2e8a6907b9903aa8ba.jpg" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/474189/duncan">Duncan</a><br>
+        <span class="reputation-score" title="reputation score 31709" dir="ltr">31.7k</span><span title="7 gold badges"><span class="badge1"></span><span class="badgecount">7</span></span><span title="58 silver badges"><span class="badge2"></span><span class="badgecount">58</span></span><span title="105 bronze badges"><span class="badge3"></span><span class="badgecount">105</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+            
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-25441276" class="comments ">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+
+
+    <tr id="comment-48620819" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">thanks! this is the easiest 
+way to just copy the libs that would be required by a project into a 
+folder somewhere so you can copy them somewhere else if need be, e.g. a 
+non maven based project. Note that of course you can just pass in a 
+hardcoded folder to use if you like, e.g. <code>mvn dependency:copy-dependencies -DoutputDirectory=./lib </code></span>
+                    –&nbsp;<a href="http://stackoverflow.com/users/26510/brad-parks" title="9397 reputation" class="comment-user">Brad Parks</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment48620819_25441276"><span title="2015-05-15 13:18:16Z" class="relativetime-clean">May 15 at 13:18</span></a></span>
+                    <span class="edited-yes" title="this comment was edited 2 times"></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-54239200" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Can you do it out of pom.xml?</span>
+                    –&nbsp;<a href="http://stackoverflow.com/users/447040/gobliins" title="703 reputation" class="comment-user">Gobliins</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment54239200_25441276"><span title="2015-10-19 14:50:16Z" class="relativetime-clean">yesterday</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+                </tbody>
+		    </table>
+	    </div>
+
+        <div id="comments-link-25441276" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="#" onclick=""></a>
+        </div>         
+    </td>
+</tr>    </tbody></table>
+</div>
+
+  
+<a name="1449651"></a>
+<div id="answer-1449651" class="answer" data-answerid="1449651" itemscope="" itemtype="http://schema.org/Answer">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+        <input name="_id_" value="1449651" type="hidden">
+        <a class="vote-up-off" title="This answer is useful">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">3</span>
+        <a class="vote-down-off" title="This answer is not useful">down vote</a>
+
+
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p>If you want to deliver a bundle of your application jar, together 
+with all it's dependencies and some scripts to invoke the MainClass, 
+look at the <a href="http://mojo.codehaus.org/appassembler/appassembler-maven-plugin/" rel="nofollow">appassembler-maven-plugin</a>.</p>
+
+<p>The following configuration will generate scripts for Window and 
+Linux to launch the application (with a generated path referencing all 
+the dependency jars, download all dependencies (into a lib folder below 
+target/appassembler). The <a href="http://maven.apache.org/plugins/maven-assembly-plugin/" rel="nofollow">assembly plugin</a>
+ can then be used to package the whole appassembler directory to a zip 
+which is installed/deployed along with the jar to the repository.</p>
+
+
+
+<pre style="" class="lang-xml prettyprint prettyprinted"><code><span class="pln">  </span><span class="tag">&lt;plugin&gt;</span><span class="pln">
+    </span><span class="tag">&lt;groupId&gt;</span><span class="pln">org.codehaus.mojo</span><span class="tag">&lt;/groupId&gt;</span><span class="pln">
+    </span><span class="tag">&lt;artifactId&gt;</span><span class="pln">appassembler-maven-plugin</span><span class="tag">&lt;/artifactId&gt;</span><span class="pln">
+    </span><span class="tag">&lt;version&gt;</span><span class="pln">1.0</span><span class="tag">&lt;/version&gt;</span><span class="pln">
+    </span><span class="tag">&lt;executions&gt;</span><span class="pln">
+      </span><span class="tag">&lt;execution&gt;</span><span class="pln">
+        </span><span class="tag">&lt;id&gt;</span><span class="pln">generate-jsw-scripts</span><span class="tag">&lt;/id&gt;</span><span class="pln">
+        </span><span class="tag">&lt;phase&gt;</span><span class="pln">package</span><span class="tag">&lt;/phase&gt;</span><span class="pln">
+        </span><span class="tag">&lt;goals&gt;</span><span class="pln">
+          </span><span class="tag">&lt;goal&gt;</span><span class="pln">generate-daemons</span><span class="tag">&lt;/goal&gt;</span><span class="pln">
+        </span><span class="tag">&lt;/goals&gt;</span><span class="pln">
+        </span><span class="tag">&lt;configuration&gt;</span><span class="pln">
+          </span><span class="com">&lt;!--declare the JSW config --&gt;</span><span class="pln">
+          </span><span class="tag">&lt;daemons&gt;</span><span class="pln">
+            </span><span class="tag">&lt;daemon&gt;</span><span class="pln">
+              </span><span class="tag">&lt;id&gt;</span><span class="pln">myApp</span><span class="tag">&lt;/id&gt;</span><span class="pln">
+              </span><span class="tag">&lt;mainClass&gt;</span><span class="pln">name.seller.rich.MyMainClass</span><span class="tag">&lt;/mainClass&gt;</span><span class="pln">
+              </span><span class="tag">&lt;commandLineArguments&gt;</span><span class="pln">
+                </span><span class="tag">&lt;commandLineArgument&gt;</span><span class="pln">start</span><span class="tag">&lt;/commandLineArgument&gt;</span><span class="pln">
+              </span><span class="tag">&lt;/commandLineArguments&gt;</span><span class="pln">
+              </span><span class="tag">&lt;platforms&gt;</span><span class="pln">
+                </span><span class="tag">&lt;platform&gt;</span><span class="pln">jsw</span><span class="tag">&lt;/platform&gt;</span><span class="pln">
+              </span><span class="tag">&lt;/platforms&gt;</span><span class="pln">              
+            </span><span class="tag">&lt;/daemon&gt;</span><span class="pln">
+          </span><span class="tag">&lt;/daemons&gt;</span><span class="pln">
+          </span><span class="tag">&lt;target&gt;</span><span class="pln">${project.build.directory}/appassembler</span><span class="tag">&lt;/target&gt;</span><span class="pln">
+        </span><span class="tag">&lt;/configuration&gt;</span><span class="pln">
+      </span><span class="tag">&lt;/execution&gt;</span><span class="pln">
+      </span><span class="tag">&lt;execution&gt;</span><span class="pln">
+        </span><span class="tag">&lt;id&gt;</span><span class="pln">assemble-standalone</span><span class="tag">&lt;/id&gt;</span><span class="pln">
+        </span><span class="tag">&lt;phase&gt;</span><span class="pln">integration-test</span><span class="tag">&lt;/phase&gt;</span><span class="pln">
+        </span><span class="tag">&lt;goals&gt;</span><span class="pln">
+          </span><span class="tag">&lt;goal&gt;</span><span class="pln">assemble</span><span class="tag">&lt;/goal&gt;</span><span class="pln">
+        </span><span class="tag">&lt;/goals&gt;</span><span class="pln">
+        </span><span class="tag">&lt;configuration&gt;</span><span class="pln">
+          </span><span class="tag">&lt;programs&gt;</span><span class="pln">
+            </span><span class="tag">&lt;program&gt;</span><span class="pln">
+              </span><span class="tag">&lt;mainClass&gt;</span><span class="pln">name.seller.rich.MyMainClass</span><span class="tag">&lt;/mainClass&gt;</span><span class="pln">
+              </span><span class="com">&lt;!-- the name of the bat/sh files to be generated --&gt;</span><span class="pln">
+              </span><span class="tag">&lt;name&gt;</span><span class="pln">mymain</span><span class="tag">&lt;/name&gt;</span><span class="pln">
+            </span><span class="tag">&lt;/program&gt;</span><span class="pln">
+          </span><span class="tag">&lt;/programs&gt;</span><span class="pln">
+          </span><span class="tag">&lt;platforms&gt;</span><span class="pln">
+            </span><span class="tag">&lt;platform&gt;</span><span class="pln">windows</span><span class="tag">&lt;/platform&gt;</span><span class="pln">
+            </span><span class="tag">&lt;platform&gt;</span><span class="pln">unix</span><span class="tag">&lt;/platform&gt;</span><span class="pln">
+          </span><span class="tag">&lt;/platforms&gt;</span><span class="pln">
+          </span><span class="tag">&lt;repositoryLayout&gt;</span><span class="pln">flat</span><span class="tag">&lt;/repositoryLayout&gt;</span><span class="pln">
+          </span><span class="tag">&lt;repositoryName&gt;</span><span class="pln">lib</span><span class="tag">&lt;/repositoryName&gt;</span><span class="pln">
+        </span><span class="tag">&lt;/configuration&gt;</span><span class="pln">
+      </span><span class="tag">&lt;/execution&gt;</span><span class="pln">
+    </span><span class="tag">&lt;/executions&gt;</span><span class="pln">
+  </span><span class="tag">&lt;/plugin&gt;</span><span class="pln">
+  </span><span class="tag">&lt;plugin&gt;</span><span class="pln">
+    </span><span class="tag">&lt;artifactId&gt;</span><span class="pln">maven-assembly-plugin</span><span class="tag">&lt;/artifactId&gt;</span><span class="pln">
+    </span><span class="tag">&lt;version&gt;</span><span class="pln">2.2-beta-4</span><span class="tag">&lt;/version&gt;</span><span class="pln">
+    </span><span class="tag">&lt;executions&gt;</span><span class="pln">
+      </span><span class="tag">&lt;execution&gt;</span><span class="pln">
+        </span><span class="tag">&lt;phase&gt;</span><span class="pln">integration-test</span><span class="tag">&lt;/phase&gt;</span><span class="pln">
+        </span><span class="tag">&lt;goals&gt;</span><span class="pln">
+          </span><span class="tag">&lt;goal&gt;</span><span class="pln">single</span><span class="tag">&lt;/goal&gt;</span><span class="pln">
+        </span><span class="tag">&lt;/goals&gt;</span><span class="pln">
+        </span><span class="tag">&lt;configuration&gt;</span><span class="pln">
+          </span><span class="tag">&lt;descriptors&gt;</span><span class="pln">
+            </span><span class="tag">&lt;descriptor&gt;</span><span class="pln">src/main/assembly/archive.xml</span><span class="tag">&lt;/descriptor&gt;</span><span class="pln">
+          </span><span class="tag">&lt;/descriptors&gt;</span><span class="pln">
+        </span><span class="tag">&lt;/configuration&gt;</span><span class="pln">
+      </span><span class="tag">&lt;/execution&gt;</span><span class="pln">
+    </span><span class="tag">&lt;/executions&gt;</span><span class="pln">
+  </span><span class="tag">&lt;/plugin&gt;</span><span class="pln"> </span></code></pre>
+
+<p>The assembly descriptor (in src/main/assembly) to package the direcotry as a zip would be:</p>
+
+<pre style="" class="lang-xml prettyprint prettyprinted"><code><span class="tag">&lt;assembly&gt;</span><span class="pln">
+  </span><span class="tag">&lt;id&gt;</span><span class="pln">archive</span><span class="tag">&lt;/id&gt;</span><span class="pln">
+  </span><span class="tag">&lt;formats&gt;</span><span class="pln">
+    </span><span class="tag">&lt;format&gt;</span><span class="pln">zip</span><span class="tag">&lt;/format&gt;</span><span class="pln">
+  </span><span class="tag">&lt;/formats&gt;</span><span class="pln">
+  </span><span class="tag">&lt;fileSets&gt;</span><span class="pln">
+    </span><span class="tag">&lt;fileSet&gt;</span><span class="pln">
+     </span><span class="tag">&lt;directory&gt;</span><span class="pln">${project.build.directory}/appassembler</span><span class="tag">&lt;/directory&gt;</span><span class="pln">
+     </span><span class="tag">&lt;outputDirectory&gt;</span><span class="pln">/</span><span class="tag">&lt;/outputDirectory&gt;</span><span class="pln">
+    </span><span class="tag">&lt;/fileSet&gt;</span><span class="pln">
+  </span><span class="tag">&lt;/fileSets&gt;</span><span class="pln">
+</span><span class="tag">&lt;/assembly&gt;</span></code></pre>
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/1449651" title="short permalink to this answer" class="short-link" id="link-post-1449651">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/1449651/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+    <td class="post-signature" align="right">
+<div class="user-info user-hover">
+    <div class="user-action-time">
+        <a href="http://stackoverflow.com/posts/1449651/revisions" title="show all edits to this post">edited <span title="2014-08-22 07:03:25Z" class="relativetime">Aug 22 '14 at 7:03</span></a>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/474189/duncan"><div class="gravatar-wrapper-32"><img src="Maven2%20copy%20dependencies_files/32b712ec4f7dcc2e8a6907b9903aa8ba.jpg" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/474189/duncan">Duncan</a><br>
+        <span class="reputation-score" title="reputation score 31709" dir="ltr">31.7k</span><span title="7 gold badges"><span class="badge1"></span><span class="badgecount">7</span></span><span title="58 silver badges"><span class="badge2"></span><span class="badgecount">58</span></span><span title="105 bronze badges"><span class="badge3"></span><span class="badgecount">105</span></span>
+    </div>
+</div>    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info user-hover">
+    <div class="user-action-time">
+        answered <span title="2009-09-19 22:06:02Z" class="relativetime">Sep 19 '09 at 22:06</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/123582/rich-seller"><div class="gravatar-wrapper-32"><img src="Maven2%20copy%20dependencies_files/54f2e66903a4570df2e1c7727864df24.jpg" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/123582/rich-seller">Rich Seller</a><br>
+        <span class="reputation-score" title="reputation score 54704" dir="ltr">54.7k</span><span title="12 gold badges"><span class="badge1"></span><span class="badgecount">12</span></span><span title="130 silver badges"><span class="badge2"></span><span class="badgecount">130</span></span><span title="155 bronze badges"><span class="badge3"></span><span class="badgecount">155</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+            
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-1449651" class="comments  dno">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+                        <tr><td></td><td></td></tr>
+                </tbody>
+		    </table>
+	    </div>
+
+        <div id="comments-link-1449651" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="#" onclick=""></a>
+        </div>         
+    </td>
+</tr>    </tbody></table>
+</div>
+
+  
+<a name="97748"></a>
+<div id="answer-97748" class="answer" data-answerid="97748" itemscope="" itemtype="http://schema.org/Answer">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+        <input name="_id_" value="97748" type="hidden">
+        <a class="vote-up-off" title="This answer is useful">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">2</span>
+        <a class="vote-down-off" title="This answer is not useful">down vote</a>
+
+
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p>If you make your project a war or ear type maven will copy the dependencies.</p>
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/97748" title="short permalink to this answer" class="short-link" id="link-post-97748">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/97748/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2008-09-18 22:44:14Z" class="relativetime">Sep 18 '08 at 22:44</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/17428/eduard-wirch"><div class="gravatar-wrapper-32"><img src="Maven2%20copy%20dependencies_files/21ccf39cca6827014df706a095f29c38.png" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/17428/eduard-wirch">Eduard Wirch</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">5,067</span><span title="6 gold badges"><span class="badge1"></span><span class="badgecount">6</span></span><span title="33 silver badges"><span class="badge2"></span><span class="badgecount">33</span></span><span title="55 bronze badges"><span class="badge3"></span><span class="badgecount">55</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+            
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-97748" class="comments  dno">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+                        <tr><td></td><td></td></tr>
+                </tbody>
+		    </table>
+	    </div>
+
+        <div id="comments-link-97748" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="#" onclick=""></a>
+        </div>         
+    </td>
+</tr>    </tbody></table>
+</div>
+
+  
+<a name="97837"></a>
+<div id="answer-97837" class="answer" data-answerid="97837" itemscope="" itemtype="http://schema.org/Answer">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+        <input name="_id_" value="97837" type="hidden">
+        <a class="vote-up-off" title="This answer is useful">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">2</span>
+        <a class="vote-down-off" title="This answer is not useful">down vote</a>
+
+
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p>You can use the the <a href="http://maven.apache.org/plugins/maven-shade-plugin/" rel="nofollow">Shade Plugin</a> to create an uber jar in which you can bundle all your 3rd party dependencies.</p>
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/97837" title="short permalink to this answer" class="short-link" id="link-post-97837">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/97837/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info user-hover">
+    <div class="user-action-time">
+        answered <span title="2008-09-18 22:59:48Z" class="relativetime">Sep 18 '08 at 22:59</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/1969/bmatthews68"><div class="gravatar-wrapper-32"><img src="Maven2%20copy%20dependencies_files/56de894e429e2eccac56e4b1b2b37764.jpg" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/1969/bmatthews68">bmatthews68</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">5,477</span><span title="4 gold badges"><span class="badge1"></span><span class="badgecount">4</span></span><span title="28 silver badges"><span class="badge2"></span><span class="badgecount">28</span></span><span title="57 bronze badges"><span class="badge3"></span><span class="badgecount">57</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+            
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-97837" class="comments  dno">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+                        <tr><td></td><td></td></tr>
+                </tbody>
+		    </table>
+	    </div>
+
+        <div id="comments-link-97837" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="#" onclick=""></a>
+        </div>         
+    </td>
+</tr>    </tbody></table>
+</div>
+
+  
+<a name="3769147"></a>
+<div id="answer-3769147" class="answer" data-answerid="3769147" itemscope="" itemtype="http://schema.org/Answer">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+        <input name="_id_" value="3769147" type="hidden">
+        <a class="vote-up-off" title="This answer is useful">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">1</span>
+        <a class="vote-down-off" title="This answer is not useful">down vote</a>
+
+
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p>Just to spell out what has already been said in brief. I wanted to 
+create an executable JAR file that included my dependencies along with 
+my code. This worked for me:</p>
+
+<p>(1) In the pom, under &lt;build&gt;&lt;plugins&gt;, I included:</p>
+
+<pre style="" class="lang-java prettyprint prettyprinted"><code><span class="pun">&lt;</span><span class="pln">plugin</span><span class="pun">&gt;</span><span class="pln">
+    </span><span class="pun">&lt;</span><span class="pln">artifactId</span><span class="pun">&gt;</span><span class="pln">maven</span><span class="pun">-</span><span class="pln">assembly</span><span class="pun">-</span><span class="pln">plugin</span><span class="pun">&lt;/</span><span class="pln">artifactId</span><span class="pun">&gt;</span><span class="pln">
+    </span><span class="pun">&lt;</span><span class="pln">version</span><span class="pun">&gt;</span><span class="lit">2.2</span><span class="pun">-</span><span class="pln">beta</span><span class="pun">-</span><span class="lit">5</span><span class="pun">&lt;/</span><span class="pln">version</span><span class="pun">&gt;</span><span class="pln">
+    </span><span class="pun">&lt;</span><span class="pln">configuration</span><span class="pun">&gt;</span><span class="pln">
+        </span><span class="pun">&lt;</span><span class="pln">archive</span><span class="pun">&gt;</span><span class="pln">
+            </span><span class="pun">&lt;</span><span class="pln">manifest</span><span class="pun">&gt;</span><span class="pln">
+                </span><span class="pun">&lt;</span><span class="pln">mainClass</span><span class="pun">&gt;</span><span class="pln">dk</span><span class="pun">.</span><span class="pln">certifikat</span><span class="pun">.</span><span class="pln">oces2</span><span class="pun">.</span><span class="pln">some</span><span class="pun">.</span><span class="kwd">package</span><span class="pun">.</span><span class="typ">MyMainClass</span><span class="pun">&lt;/</span><span class="pln">mainClass</span><span class="pun">&gt;</span><span class="pln">
+            </span><span class="pun">&lt;/</span><span class="pln">manifest</span><span class="pun">&gt;</span><span class="pln">
+        </span><span class="pun">&lt;/</span><span class="pln">archive</span><span class="pun">&gt;</span><span class="pln">
+        </span><span class="pun">&lt;</span><span class="pln">descriptorRefs</span><span class="pun">&gt;</span><span class="pln">
+            </span><span class="pun">&lt;</span><span class="pln">descriptorRef</span><span class="pun">&gt;</span><span class="pln">jar</span><span class="pun">-</span><span class="pln">with</span><span class="pun">-</span><span class="pln">dependencies</span><span class="pun">&lt;/</span><span class="pln">descriptorRef</span><span class="pun">&gt;</span><span class="pln">
+        </span><span class="pun">&lt;/</span><span class="pln">descriptorRefs</span><span class="pun">&gt;</span><span class="pln">
+    </span><span class="pun">&lt;/</span><span class="pln">configuration</span><span class="pun">&gt;</span><span class="pln">
+</span><span class="pun">&lt;/</span><span class="pln">plugin</span><span class="pun">&gt;</span></code></pre>
+
+<p>(2) Running mvn compile assembly:assembly produced the desired 
+my-project-0.1-SNAPSHOT-jar-with-dependencies.jar in the project's 
+target directory.</p>
+
+<p>(3) I ran the JAR with java -jar my-project-0.1-SNAPSHOT-jar-with-dependencies.jar</p>
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/3769147" title="short permalink to this answer" class="short-link" id="link-post-3769147">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/3769147/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2010-09-22 12:23:53Z" class="relativetime">Sep 22 '10 at 12:23</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/455012/olevv"><div class="gravatar-wrapper-32"><img src="Maven2%20copy%20dependencies_files/7bee4fdb252111423bbd4defc195a2ae.png" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/455012/olevv">OleVV</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">11</span><span title="1 bronze badge"><span class="badge3"></span><span class="badgecount">1</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+            
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-3769147" class="comments ">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+
+
+    <tr id="comment-29529282" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">main class not found in (3)</span>
+                    –&nbsp;<a href="http://stackoverflow.com/users/2210667/thomas" title="979 reputation" class="comment-user">Thomas</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment29529282_3769147"><span title="2013-11-08 08:55:53Z" class="relativetime-clean">Nov 8 '13 at 8:55</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+                </tbody>
+		    </table>
+	    </div>
+
+        <div id="comments-link-3769147" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="#" onclick=""></a>
+        </div>         
+    </td>
+</tr>    </tbody></table>
+</div>
+
+  
+<a name="9087972"></a>
+<div id="answer-9087972" class="answer" data-answerid="9087972" itemscope="" itemtype="http://schema.org/Answer">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+        <input name="_id_" value="9087972" type="hidden">
+        <a class="vote-up-off" title="This answer is useful">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">1</span>
+        <a class="vote-down-off" title="This answer is not useful">down vote</a>
+
+
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p>It's a heavy solution for embedding heavy dependencies, but Maven's <a href="http://maven.apache.org/plugins/maven-assembly-plugin/index.html" rel="nofollow">Assembly Plugin</a> does the trick for me.  </p>
+
+<p>@<a href="http://stackoverflow.com/a/1449651/155090">Rich Seller's answer</a> should work, although for simpler cases you should only need this excerpt from the <a href="http://maven.apache.org/plugins/maven-assembly-plugin/usage.html" rel="nofollow">usage guide</a>: </p>
+
+<pre style="" class="lang-java prettyprint prettyprinted"><code><span class="pun">&lt;</span><span class="pln">project</span><span class="pun">&gt;</span><span class="pln">
+    </span><span class="pun">&lt;</span><span class="pln">build</span><span class="pun">&gt;</span><span class="pln">
+        </span><span class="pun">&lt;</span><span class="pln">plugins</span><span class="pun">&gt;</span><span class="pln">
+            </span><span class="pun">&lt;</span><span class="pln">plugin</span><span class="pun">&gt;</span><span class="pln">
+                </span><span class="pun">&lt;</span><span class="pln">artifactId</span><span class="pun">&gt;</span><span class="pln">maven</span><span class="pun">-</span><span class="pln">assembly</span><span class="pun">-</span><span class="pln">plugin</span><span class="pun">&lt;/</span><span class="pln">artifactId</span><span class="pun">&gt;</span><span class="pln">
+                </span><span class="pun">&lt;</span><span class="pln">version</span><span class="pun">&gt;</span><span class="lit">2.2</span><span class="pun">.</span><span class="lit">2</span><span class="pun">&lt;/</span><span class="pln">version</span><span class="pun">&gt;</span><span class="pln">
+                </span><span class="pun">&lt;</span><span class="pln">configuration</span><span class="pun">&gt;</span><span class="pln">
+                    </span><span class="pun">&lt;</span><span class="pln">descriptorRefs</span><span class="pun">&gt;</span><span class="pln">
+                        </span><span class="pun">&lt;</span><span class="pln">descriptorRef</span><span class="pun">&gt;</span><span class="pln">jar</span><span class="pun">-</span><span class="pln">with</span><span class="pun">-</span><span class="pln">dependencies</span><span class="pun">&lt;/</span><span class="pln">descriptorRef</span><span class="pun">&gt;</span><span class="pln">
+                    </span><span class="pun">&lt;/</span><span class="pln">descriptorRefs</span><span class="pun">&gt;</span><span class="pln">
+                </span><span class="pun">&lt;/</span><span class="pln">configuration</span><span class="pun">&gt;</span><span class="pln">
+            </span><span class="pun">&lt;/</span><span class="pln">plugin</span><span class="pun">&gt;</span><span class="pln">
+        </span><span class="pun">&lt;/</span><span class="pln">plugins</span><span class="pun">&gt;</span><span class="pln">
+    </span><span class="pun">&lt;/</span><span class="pln">build</span><span class="pun">&gt;</span><span class="pln">
+</span><span class="pun">&lt;/</span><span class="pln">project</span><span class="pun">&gt;</span></code></pre>
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/9087972" title="short permalink to this answer" class="short-link" id="link-post-9087972">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/9087972/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2012-01-31 22:27:36Z" class="relativetime">Jan 31 '12 at 22:27</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/155090/rubytuesdaydono"><div class="gravatar-wrapper-32"><img src="Maven2%20copy%20dependencies_files/d784de478ff07ccba32cb9e5716a9f84.jpg" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/155090/rubytuesdaydono">RubyTuesdayDONO</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">654</span><span title="5 silver badges"><span class="badge2"></span><span class="badgecount">5</span></span><span title="24 bronze badges"><span class="badge3"></span><span class="badgecount">24</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+            
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-9087972" class="comments ">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+
+
+    <tr id="comment-39693428" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Your code example doesn't 
+solve the problem, it just bundles everything into a single JAR. Yes, 
+the assembly plugin can be used to achieve this goal, but not like this.</span>
+                    –&nbsp;<a href="http://stackoverflow.com/users/474189/duncan" title="31709 reputation" class="comment-user">Duncan</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment39693428_9087972"><span title="2014-08-22 07:00:27Z" class="relativetime-clean">Aug 22 '14 at 7:00</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-39693469" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Although, on further reading, maybe you are responding to <a href="http://stackoverflow.com/questions/97640/force-maven2-to-copy-dependencies-into-target-lib/25441276#comment15792_97640">this comment</a>.</span>
+                    –&nbsp;<a href="http://stackoverflow.com/users/474189/duncan" title="31709 reputation" class="comment-user">Duncan</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment39693469_9087972"><span title="2014-08-22 07:01:30Z" class="relativetime-clean">Aug 22 '14 at 7:01</span></a></span>
+                    <span class="edited-yes" title="this comment was edited 1 time"></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-39717097" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">it's been so long that i 
+don't really remember … plus i've gotten rather rusty since focusing on 
+Linux administration at my last firm — but thank you for the feedback!</span>
+                    –&nbsp;<a href="http://stackoverflow.com/users/155090/rubytuesdaydono" title="654 reputation" class="comment-user">RubyTuesdayDONO</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment39717097_9087972"><span title="2014-08-22 18:54:15Z" class="relativetime-clean">Aug 22 '14 at 18:54</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+                </tbody>
+		    </table>
+	    </div>
+
+        <div id="comments-link-9087972" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="#" onclick=""></a>
+        </div>         
+    </td>
+</tr>    </tbody></table>
+</div>
+
+  
+<a name="6034093"></a>
+<div id="answer-6034093" class="answer" data-answerid="6034093" itemscope="" itemtype="http://schema.org/Answer">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+        <input name="_id_" value="6034093" type="hidden">
+        <a class="vote-up-off" title="This answer is useful">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">0</span>
+        <a class="vote-down-off" title="This answer is not useful">down vote</a>
+
+
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p>If you're having problems related to dependencies not appearing in 
+the WEB-INF/lib file when running on a Tomcat server in Eclipse, take a 
+look at this:</p>
+
+<p><a href="http://stackoverflow.com/questions/4777026/classnotfoundexception-dispatcherservlet-when-launching-tomcat-maven-dependencie">ClassNotFoundException DispatcherServlet when launching Tomcat (Maven dependencies not copied to wtpwebapps)</a></p>
+
+<p>You simply had to add the Maven Dependencies in Project Properties &gt; Deployment Assembly.</p>
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/6034093" title="short permalink to this answer" class="short-link" id="link-post-6034093">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/6034093/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2011-05-17 16:31:29Z" class="relativetime">May 17 '11 at 16:31</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/757763/hemetsu"><div class="gravatar-wrapper-32"><img src="Maven2%20copy%20dependencies_files/9afb595da2cb089c648810f933679f94.png" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/757763/hemetsu">hemetsu</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">1</span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+            
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-6034093" class="comments  dno">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+                        <tr><td></td><td></td></tr>
+                </tbody>
+		    </table>
+	    </div>
+
+        <div id="comments-link-6034093" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="#" onclick=""></a>
+        </div>         
+    </td>
+</tr>    </tbody></table>
+</div>
+									<a name="new-answer"></a>
+						<form id="post-form" action="/questions/97640/answer/submit" method="post" class="post-form">
+						    <input id="post-id" value="97640" type="hidden">
+                            <input id="qualityBanWarningShown" name="qualityBanWarningShown" value="false" type="hidden">
+                            <input name="referrer" value="http://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=3&amp;ved=0CC8QFjACahUKEwidhNeMt9PIAhXH8XIKHU0NAFk&amp;url=http%3A%2F%2Fstackoverflow.com%2Fquestions%2F97640%2Fforce-maven2-to-copy-dependencies-into-target-lib&amp;usg=AFQjCNGmhCsNn44Yus8jJUionNVvFgmiyg&amp;sig2=g0-yfNciuyI4miLKRiqsSg&amp;cad=rja" type="hidden">
+							<h2 class="space">Your Answer</h2>
+
+
+            <script>
+            StackExchange.ifUsing("editor", function () {
+                StackExchange.using("externalEditor", function () {
+                    StackExchange.using("snippets", function () {
+                        StackExchange.snippets.init();
+                    });
+                });
+            }, "code-snippets");
+        </script>
+    
+
+<script>
+    StackExchange.ready(function() {
+        initTagRenderer("".split(" "), "".split(" "));
+       
+        StackExchange.using("externalEditor", function() {
+                // Have to fire editor after snippets, if snippets enabled
+                if (StackExchange.options.snippets.enabled) {
+                    StackExchange.using("snippets", function() {
+                        createEditor();
+                    });
+                }
+                else {
+                    createEditor();
+                }
+            });
+
+            function createEditor() {
+                prepareEditor({
+                    heartbeatType: 'answer',
+                convertImagesToLinks: true,
+                reputationToPostImages: 10,
+                bindNavPrevention: true,
+                postfix: "",
+                    onDemand: true,
+                    discardSelector: ".discard-answer"
+                    ,immediatelyShowMarkdownHelp:true
+                    });
+                
+
+        }
+    });  
+</script>
+
+
+<div id="post-editor" class="post-editor js-post-editor">
+
+    <div style="position: relative;">     
+        <div class="wmd-container">
+            <div id="wmd-button-bar" class="wmd-button-bar"><ul id="wmd-button-row" class="wmd-button-row"><li style="left: 0px;" class="wmd-button" id="wmd-bold-button"><span style="background-position: 0px -20px;"></span></li><li style="left: 25px;" class="wmd-button" id="wmd-italic-button"><span style="background-position: -20px -20px;"></span></li><li style="left: 50px;" class="wmd-spacer" id="wmd-spacer1"><span style="background-position: -40px -20px;"></span></li><li style="left: 75px;" class="wmd-button" id="wmd-link-button"><span style="background-position: -40px -20px;"></span></li><li style="left: 100px;" class="wmd-button" id="wmd-quote-button"><span style="background-position: -60px -20px;"></span></li><li style="left: 125px;" class="wmd-button" id="wmd-code-button"><span style="background-position: -80px -20px;"></span></li><li style="left: 150px;" class="wmd-button" id="wmd-image-button"><span style="background-position: -100px -20px;"></span></li><li style="left: 175px;" class="wmd-spacer" id="wmd-spacer2"><span style="background-position: -120px -20px;"></span></li><li style="left: 200px;" class="wmd-button" id="wmd-olist-button"><span style="background-position: -120px -20px;"></span></li><li style="left: 225px;" class="wmd-button" id="wmd-ulist-button"><span style="background-position: -140px -20px;"></span></li><li style="left: 250px;" class="wmd-button" id="wmd-heading-button"><span style="background-position: -160px -20px;"></span></li><li style="left: 275px;" class="wmd-button" id="wmd-hr-button"><span style="background-position: -180px -20px;"></span></li><li style="left: 300px;" class="wmd-spacer" id="wmd-spacer3"><span style="background-position: -200px -20px;"></span></li><li style="left: 325px;" class="wmd-button" id="wmd-undo-button"><span style="background-position: -200px -20px;"></span></li><li style="left: 350px;" class="wmd-button" id="wmd-redo-button"><span style="background-position: -220px -20px;"></span></li></ul></div>
+            <textarea id="wmd-input" class="wmd-input" name="post-text" cols="92" rows="15" tabindex="101" data-min-length=""></textarea>
+        </div>
+    </div>
+
+    <div class="fl" style="margin-top: 8px; height:24px;">&nbsp;</div>
+    <div id="draft-saved" class="draft-saved community-option fl" style="margin-top: 8px; height:24px; display:none;">draft saved</div>
+
+    <div id="draft-discarded" class="draft-discarded community-option fl" style="margin-top: 8px; height:24px; display:none;">draft discarded</div>
+
+
+
+    <div id="wmd-preview" class="wmd-preview"></div>
+    <div></div>
+    <div class="edit-block">
+        <input id="fkey" name="fkey" value="8cc43bb57c4b9bd91d9e1c7749429fd3" type="hidden">
+        <input id="author" name="author" type="text">
+    </div>
+
+
+
+</div>
+							<div style="position: relative;">
+								
+								            <div class="form-item new-post-login">
+        
+                <div class="new-login-form">
+                    <div class="new-login-left">
+                        <h3>Sign up or <a id="login-link" href="http://stackoverflow.com/users/login?ssrc=question_page&amp;returnurl=http%3a%2f%2fstackoverflow.com%2fquestions%2f97640%2fforce-maven2-to-copy-dependencies-into-target-lib%23new-answer">log in</a></h3>
+                        <script>
+                            StackExchange.ready(function () {
+                                StackExchange.helpers.onClickDraftSave('#login-link');
+                            });
+                        </script>
+                        <div class="preferred-login google-login">
+                            <p><span class="icon"></span><span>Sign up using Google</span></p>
+                        </div>
+                        <div class="preferred-login facebook-login">
+                            <p><span class="icon"></span><span>Sign up using Facebook</span></p>
+                        </div>
+                        <div class="preferred-login stackexchange-login">
+                            <p><span class="icon"></span><span>Sign up using Email and Password</span></p>
+                        </div>
+                    </div>
+                    <input name="manual-openid" class="manual-openid" type="hidden">
+                    <input name="use-facebook" class="use-facebook" value="false" type="hidden">
+                    <input name="use-google" class="use-google" value="false" type="hidden">
+                    <input class="submit-openid" value="Submit" style="display:none" type="button">
+                    <div class="new-login-right">
+                                <h3>Post as a guest</h3>
+    <div class="form-item">
+        <table>
+        <tbody><tr>
+                    <td class="vm">
+                <div>
+                    <label for="display-name">Name</label>
+                    <input id="display-name" name="display-name" size="30" maxlength="30" tabindex="105" type="text">
+                </div>
+                <div>
+                    <label for="m-address">Email</label>
+                    <input id="m-address" name="m-address" size="30" maxlength="100" tabindex="106" placeholder="required, but never shown" type="email">
+                </div>
+            </td>
+        </tr>
+        </tbody></table>
+    </div>
+
+                    </div>
+                </div>
+            </div>
+            <script>
+                StackExchange.ready(
+                    function () {
+                        StackExchange.openid.initPostLogin('.new-post-login', 'http%3a%2f%2fstackoverflow.com%2fquestions%2f97640%2fforce-maven2-to-copy-dependencies-into-target-lib%23new-answer', 'question_page');
+                    }
+                );
+            </script>
+            <noscript>
+                        <h3>Post as a guest</h3>
+    <div class="form-item">
+        <table>
+        <tr>
+                    <td class="vm">
+                <div>
+                    <label for="display-name">Name</label>
+                    <input id="display-name" name="display-name" type="text" size="30" maxlength="30" value="" tabindex="105">
+                </div>
+                <div>
+                    <label for="m-address">Email</label>
+                    <input id="m-address" name="m-address" type="email" size="30" maxlength="100" value="" tabindex="106" placeholder="required, but never shown" />
+                </div>
+            </td>
+        </tr>
+        </table>
+    </div>
+
+            </noscript>
+
+							</div>
+           
+															<div class="form-submit cbt">
+									<input id="submit-button" value="Post Your Answer" tabindex="110" type="submit">
+									<a href="#" class="discard-answer dno">discard</a>
+
+<p class="privacy-policy-agreement">
+By posting your answer, you agree to the <a href="http://stackexchange.com/legal/privacy-policy" target="_blank">privacy policy</a> and <a href="http://stackexchange.com/legal/terms-of-service" target="_blank">terms of service</a>.</p>
+<input name="legalLinksShown" value="1" type="hidden">								</div>
+						</form>
+
+
+
+						<h2 class="bottom-notice" data-loc="1">
+Not the answer you're looking for?							Browse other questions tagged <a href="http://stackoverflow.com/questions/tagged/java" class="post-tag" title="show questions tagged 'java'" rel="tag">java</a> <a href="http://stackoverflow.com/questions/tagged/maven-2" class="post-tag" title="show questions tagged 'maven-2'" rel="tag">maven-2</a> <a href="http://stackoverflow.com/questions/tagged/copy" class="post-tag" title="show questions tagged 'copy'" rel="tag">copy</a> <a href="http://stackoverflow.com/questions/tagged/runtime" class="post-tag" title="show questions tagged 'runtime'" rel="tag">runtime</a> <a href="http://stackoverflow.com/questions/tagged/dependencies" class="post-tag" title="show questions tagged 'dependencies'" rel="tag">dependencies</a>  or <a href="http://stackoverflow.com/questions/ask">ask your own question</a>.						</h2>
+			</div>
+		</div>
+				<div id="sidebar" class="show-votes">
+						    <div class="module question-stats">
+			        <table id="qinfo">
+			            <tbody><tr>
+			                <td>
+			                    <p class="label-key">asked</p>
+			                </td>
+			                <td style="padding-left: 10px">
+			                    <p class="label-key" title="2008-09-18 22:26:09Z"><b>7 years ago</b></p>
+			                </td>
+			            </tr>
+			            <tr>
+			                <td>
+			                    <p class="label-key">viewed</p>
+			                </td>
+
+			                <td style="padding-left: 10px">
+			                    <p class="label-key">
+			                        <b>129267 times</b>
+			                    </p>
+			                </td>
+			            </tr>
+			                <tr>
+			                    <td>
+			                        <p class="label-key">active</p>
+			                    </td>
+			                    <td style="padding-left: 10px">
+			                        <p class="label-key"><b><a href="http://stackoverflow.com/questions/97640/force-maven2-to-copy-dependencies-into-target-lib?lastactivity" class="lastactivity-link" title="2014-12-11 09:14:48Z">10 months ago</a></b></p>
+			                    </td>
+			                </tr>
+			        </tbody></table>
+			    </div>
+						
+			<script>
+                var ados = ados || {}; ados.run = ados.run || [];
+                ados.run.push(function () { ados_add_placement(22,8277,"adzerk281094046",[17,2221]).setZone(45); });
+            </script>
+            <div style="display: none ! important;" class="everyonelovesstackoverflow" id="adzerk281094046"><a href="http://engine.adzerk.net/r?e=eyJhdiI6NDE0LCJhdCI6MTcsImJ0IjowLCJjbSI6MTg2NjI0LCJjaCI6MTE3OCwiY2siOnt9LCJjciI6Njk1NzE2LCJkaSI6ImUxNzQxYmM0Mjk3ODQxOThhMjQwNzEwYWIyM2IyYjA1IiwiZG0iOjEsImZjIjo3MjE4MTAsImZsIjo0MzE3ODAsImlwIjoiODYuNTcuMTQ0Ljk5Iiwia3ciOiJqYXZhLG1hdmVuLTIsY29weSxydW50aW1lLGRlcGVuZGVuY2llcyIsIm53IjoyMiwicGMiOjAsImVjIjowLCJwciI6MTYwNCwicnQiOjEsInJmIjoiaHR0cDovL3d3dy5nb29nbGUuY29tL3VybD9zYT10JnJjdD1qJnE9JmVzcmM9cyZzb3VyY2U9d2ViJmNkPTMmdmVkPTBDQzhRRmpBQ2FoVUtFd2lkaE5lTXQ5UElBaFhIOFhJS0hVME5BRmsmdXJsPWh0dHA6Ly9zdGFja292ZXJmbG93LmNvbS9xdWVzdGlvbnMvOTc2NDAvZm9yY2UtbWF2ZW4yLXRvLWNvcHktZGVwZW5kZW5jaWVzLWludG8tdGFyZ2V0LWxpYiZ1c2c9QUZRakNOR21oQ3NObjQ0WXVzOGpKVWlvbk5WdkZnbWl5ZyZzaWcyPWcwLXlmTmNpdXlJNG1pTEtSaXFzU2cmY2FkPXJqYSIsInN0Ijo4Mjc3LCJ1ayI6InVlMS05YjZhMzMzZDAyMjk0MDRiYjMwMTMxNTU1Nzk2MjZjYiIsInpuIjo0NSwidHMiOjE0NDU0MzAxMTQyMTcsImJmIjp0cnVlLCJwbiI6ImFkemVyazI4MTA5NDA0NiIsInVyIjoiaHR0cDovL2NhcmVlcnMuc3RhY2tvdmVyZmxvdy5jb20vam9icy9yZW1vdGU_dXRtX3NvdXJjZT1zdGFja292ZXJmbG93LmNvbSZ1dG1fbWVkaXVtPWFkJnV0bV9jYW1wYWlnbj1jYW5kaWRhdGVzLXdmaCZ1dG1fY29udGVudD1zYi13ZmgtYW55d2hlcmUifQ&amp;s=dIsoGR9Ii9Fd0OFp3J9a_8lOLUw" rel="nofollow" target="_blank" title=""><img style="display: none ! important;" src="Maven2%20copy%20dependencies_files/a9be0e0a9d0f4f53afcac54aca5320fc.jpg" title="" alt="" height="250" border="0" width="220"></a><img src="Maven2%20copy%20dependencies_files/i_003.gif" style="position: absolute; display: none ! important;" height="0px" border="0" width="0px"></div>
+        <div class=" tag-themed java tagthemedjava tagged" id="hireme"><a href="http://careers.stackoverflow.com/jobs/tag/java" target="_blank" data-hf="h" class="top"> <span>Want a <span class="header-tag">java</span> job?</span></a><ul class="jobs"><li><a data-cid="178785" href="http://careers.stackoverflow.com/jobs/92783/senior-software-developer-java-global-blue" target="_blank" title="Senior Software Developer (Java) at Global Blue. Click to learn more.">Senior Software Developer (Java)<br><div class="company">Global Blue</div><div class="location" title="Vienna, Austria">Vienna, Austria</div><span class="post-tag highlight">java</span></a></li><li><a data-cid="184349" href="http://careers.stackoverflow.com/jobs/98384/java-developer-automotive-tech-startup-carzada-montes8615-gmbh" target="_blank" title="JAVA Developer @ Automotive Tech Startup at CARZADA - Montes8615 GmbH. Click to learn more.">JAVA Developer @ Automotive Tech Startup<br><div class="company">CARZADA - Montes8615 GmbH</div><div class="location" title="München, Germany">München, Germany</div><span class="post-tag highlight">java</span><span class="post-tag">playframework-2.0</span></a></li></ul><img class="impression" src="Maven2%20copy%20dependencies_files/i.gif" style="display:none;"></div>
+			  
+    
+            <div class="module sidebar-linked">
+	<h4 id="h-linked">Linked</h4>
+	<div class="linked" data-tracker="lq=1">
+<div class="spacer">
+	<a href="http://stackoverflow.com/q/9689793?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  large">184</div>
+	</a>
+	<a href="http://stackoverflow.com/questions/9689793/cant-execute-jar-file-no-main-manifest-attribute?lq=1" class="question-hyperlink">Can't execute jar- file: “no main manifest attribute”</a>
+</div><div class="spacer">
+	<a href="http://stackoverflow.com/q/6083501?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">36</div>
+	</a>
+	<a href="http://stackoverflow.com/questions/6083501/maven-dependencies-not-visible-in-web-inf-lib?lq=1" class="question-hyperlink">Maven dependencies not visible in WEB-INF/lib</a>
+</div><div class="spacer">
+	<a href="http://stackoverflow.com/q/11758594?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">31</div>
+	</a>
+	<a href="http://stackoverflow.com/questions/11758594/how-to-put-all-required-jars-in-a-lib-folder-inside-the-final-jar-with-maven?lq=1" class="question-hyperlink">How to put all required jars in a lib folder inside the final jar with Maven ?</a>
+</div><div class="spacer">
+	<a href="http://stackoverflow.com/q/7742252?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">26</div>
+	</a>
+	<a href="http://stackoverflow.com/questions/7742252/how-to-use-maven-pom-to-download-jar-files-only-to-a-specific-directory?lq=1" class="question-hyperlink">How to use Maven pom to download jar files only to a specific directory?</a>
+</div><div class="spacer">
+	<a href="http://stackoverflow.com/q/4777026?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">23</div>
+	</a>
+	<a href="http://stackoverflow.com/questions/4777026/classnotfoundexception-dispatcherservlet-when-launching-tomcat-maven-dependenci?lq=1" class="question-hyperlink">ClassNotFoundException DispatcherServlet when launching Tomcat (Maven dependencies not copied to wtpwebapps)</a>
+</div><div class="spacer">
+	<a href="http://stackoverflow.com/q/2008821?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">14</div>
+	</a>
+	<a href="http://stackoverflow.com/questions/2008821/how-do-i-get-maven-managed-dependencies-copied-into-war-web-inf-lib-so-i-can-run?lq=1" class="question-hyperlink">How do I get maven managed dependencies copied into war\web-inf\lib so I can run my GWT 2.0 app in debug mode within Eclipse?</a>
+</div><div class="spacer">
+	<a href="http://stackoverflow.com/q/4568633?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">11</div>
+	</a>
+	<a href="http://stackoverflow.com/questions/4568633/use-maven-just-to-fetch-some-library-jars?lq=1" class="question-hyperlink">Use Maven just to fetch some library jars</a>
+</div><div class="spacer">
+	<a href="http://stackoverflow.com/q/6796893?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">17</div>
+	</a>
+	<a href="http://stackoverflow.com/questions/6796893/view-a-dependency-tree-in-maven?lq=1" class="question-hyperlink">View a dependency tree in Maven?</a>
+</div><div class="spacer">
+	<a href="http://stackoverflow.com/q/9385991?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">5</div>
+	</a>
+	<a href="http://stackoverflow.com/questions/9385991/setting-up-a-proper-classpath-when-using-maven?lq=1" class="question-hyperlink">Setting up a proper classpath when using maven</a>
+</div><div class="spacer">
+	<a href="http://stackoverflow.com/q/15833368?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">0</div>
+	</a>
+	<a href="http://stackoverflow.com/questions/15833368/what-is-wrong-with-my-neo4j-test-setup-embeddedneo4j-java-neo4j-maven?lq=1" class="question-hyperlink">What is wrong with my neo4j test setup? EmbeddedNeo4j.java, neo4j, maven</a>
+</div>					<div class="spacer more">
+				<a href="http://stackoverflow.com/questions/linked/97640?lq=1">see more linked questions…</a>
+			</div>
+	</div>
+</div>
+
+				<div class="module sidebar-related">
+					<h4 id="h-related">Related</h4>
+                    <div class="related js-gps-related-questions" data-tracker="rq=1">
+                        <div class="spacer js-gps-track">
+<a href="http://stackoverflow.com/q/30571?rq=1" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted large">386
+    </div>
+</a><a href="http://stackoverflow.com/questions/30571/how-do-i-tell-maven-to-use-the-latest-version-of-a-dependency?rq=1" class="question-hyperlink">How do I tell Maven to use the latest version of a dependency?</a>
+</div>
+<div class="spacer js-gps-track">
+<a href="http://stackoverflow.com/q/364114?rq=1" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes large">523
+    </div>
+</a><a href="http://stackoverflow.com/questions/364114/can-i-add-jars-to-maven-2-build-classpath-without-installing-them?rq=1" class="question-hyperlink">Can I add jars to maven 2 build classpath without installing them?</a>
+</div>
+<div class="spacer js-gps-track">
+<a href="http://stackoverflow.com/q/396245?rq=1" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">83
+    </div>
+</a><a href="http://stackoverflow.com/questions/396245/add-a-dependency-in-maven?rq=1" class="question-hyperlink">Add a dependency in Maven</a>
+</div>
+<div class="spacer js-gps-track">
+<a href="http://stackoverflow.com/q/574594?rq=1" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted extra-large">1036
+    </div>
+</a><a href="http://stackoverflow.com/questions/574594/how-can-i-create-an-executable-jar-with-dependencies-using-maven?rq=1" class="question-hyperlink">How can I create an executable JAR with dependencies using Maven?</a>
+</div>
+<div class="spacer js-gps-track">
+<a href="http://stackoverflow.com/q/1901784?rq=1" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">2
+    </div>
+</a><a href="http://stackoverflow.com/questions/1901784/in-maven2-is-there-a-way-to-scope-a-dependency-to-package-only-and-keep-it-of?rq=1" class="question-hyperlink">In Maven2, is there a way to scope a dependency to “package only” and keep it off the test classpath?</a>
+</div>
+<div class="spacer js-gps-track">
+<a href="http://stackoverflow.com/q/2229757?rq=1" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted large">129
+    </div>
+</a><a href="http://stackoverflow.com/questions/2229757/maven-add-a-dependency-to-a-jar-by-relative-path?rq=1" class="question-hyperlink">Maven: add a dependency to a jar by relative path</a>
+</div>
+<div class="spacer js-gps-track">
+<a href="http://stackoverflow.com/q/2237537?rq=1" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">94
+    </div>
+</a><a href="http://stackoverflow.com/questions/2237537/which-maven-dependencies-to-include-for-spring-3-0?rq=1" class="question-hyperlink">Which maven dependencies to include for spring 3.0?</a>
+</div>
+<div class="spacer js-gps-track">
+<a href="http://stackoverflow.com/q/2287718?rq=1" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">7
+    </div>
+</a><a href="http://stackoverflow.com/questions/2287718/spring-3-0-0-dependencies-download-with-maven?rq=1" class="question-hyperlink">Spring 3.0.0 dependencies download with Maven</a>
+</div>
+<div class="spacer js-gps-track">
+<a href="http://stackoverflow.com/q/3880286?rq=1" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes default">1
+    </div>
+</a><a href="http://stackoverflow.com/questions/3880286/transitive-dependencies-in-maven2?rq=1" class="question-hyperlink">Transitive dependencies in Maven2</a>
+</div>
+<div class="spacer js-gps-track">
+<a href="http://stackoverflow.com/q/12391489?rq=1" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes default">0
+    </div>
+</a><a href="http://stackoverflow.com/questions/12391489/i-am-playing-around-with-spring-maven-and-eclipse-force-maven2-to-copy-depende?rq=1" class="question-hyperlink">I am playing around with Spring, Maven and Eclipse, force Maven2 to copy dependencies</a>
+</div>
+
+                    </div>
+				</div>
+            
+<div id="hot-network-questions" class="module">
+    <h4>
+        <a href="http://stackexchange.com/questions?tab=hot" class="js-gps-track" data-gps-track="posts_hot_network.click({ item_type:1, location:11 })">
+            Hot Network Questions
+        </a>
+    </h4>
+    <ul>
+            <li>
+                <div class="favicon favicon-tex" title="TeX - LaTeX Stack Exchange"></div><a href="http://tex.stackexchange.com/questions/273941/how-to-change-color-of-operators-lim-log-etc" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:85 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How to change color of operators (lim, log, etc.)?
+                </a>
+
+            </li>
+            <li>
+                <div class="favicon favicon-english" title="English Language &amp; Usage Stack Exchange"></div><a href="http://english.stackexchange.com/questions/281461/why-is-wheres-it-grammatically-incorrect" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:97 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Why is 'Where's it' Grammatically incorrect?
+                </a>
+
+            </li>
+            <li>
+                <div class="favicon favicon-academia" title="Academia Stack Exchange"></div><a href="http://academia.stackexchange.com/questions/56543/is-it-considered-cheating-if-i-purchase-an-essay-but-then-dont-use-it" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:415 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Is it considered cheating if I purchase an essay but then don't use it?
+                </a>
+
+            </li>
+            <li>
+                <div class="favicon favicon-unix" title="Unix &amp; Linux Stack Exchange"></div><a href="http://unix.stackexchange.com/questions/237531/why-does-ls-all-show-year-or-time" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:106 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Why does "ls -all" show year or time?
+                </a>
+
+            </li>
+            <li>
+                <div class="favicon favicon-security" title="Information Security Stack Exchange"></div><a href="http://security.stackexchange.com/questions/103088/is-there-any-way-to-safely-examine-the-contents-of-a-usb-memory-stick" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:162 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Is there any way to safely examine the contents of a USB memory stick?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-english" title="English Language &amp; Usage Stack Exchange"></div><a href="http://english.stackexchange.com/questions/281087/what-do-you-call-a-job-offer-that-isnt-a-real-offer-yet" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:97 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    What do you call a job offer that isn't a real offer yet?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-security" title="Information Security Stack Exchange"></div><a href="http://security.stackexchange.com/questions/102873/how-can-usb-sticks-be-dangerous" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:162 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How can USB sticks be dangerous?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-music" title="Music: Practice &amp; Theory Stack Exchange"></div><a href="http://music.stackexchange.com/questions/38713/should-i-practise-chords-as-a-beginner" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:240 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Should i practise chords as a beginner?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-tridion" title="Tridion Stack Exchange"></div><a href="http://tridion.stackexchange.com/questions/13106/tridion-cm-2013-hr1-installer-error-reconfiguration-success-or-error-status-16" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:485 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Tridion CM 2013 HR1 installer error: Reconfiguration success or error status: 1603
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-writers" title="Writers Stack Exchange"></div><a href="http://writers.stackexchange.com/questions/19408/avoiding-the-as-you-know-trope-in-exposition" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:166 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Avoiding the "as you know" trope in exposition
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-robotics" title="Robotics Stack Exchange"></div><a href="http://robotics.stackexchange.com/questions/8302/what-is-the-difference-between-path-planning-and-motion-planning" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:469 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    What is the difference between path planning and motion planning?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-hsm" title="History of Science and Mathematics Stack Exchange"></div><a href="http://hsm.stackexchange.com/questions/2940/is-there-any-famous-theorem-or-result-proved-by-female-mathematicians" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:587 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Is there any famous theorem or result proved by female mathematicians?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-electronics" title="Electrical Engineering Stack Exchange"></div><a href="http://electronics.stackexchange.com/questions/196458/discrete-signals-power-and-energy-after-up-downsampling" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:135 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Discrete signals: Power and Energy after Up/Downsampling
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-gis" title="Geographic Information Systems Stack Exchange"></div><a href="http://gis.stackexchange.com/questions/167180/does-a-large-amount-of-gpu-memory-help-when-working-with-very-large-images-and-i" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:79 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Does a large amount of GPU memory help when working with very large images and image mosaics?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-rpg" title="Role-playing Games Stack Exchange"></div><a href="http://rpg.stackexchange.com/questions/70101/proficiency-bonuses-and-multiclassing-highest-add-all-together-or-what" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:122 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Proficiency bonuses and multiclassing: highest, add all together, or what?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-math" title="Mathematics Stack Exchange"></div><a href="http://math.stackexchange.com/questions/1490438/what-is-meant-by-limit-of-sets" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:69 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    What is meant by limit of sets?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-scifi" title="Science Fiction &amp; Fantasy Stack Exchange"></div><a href="http://scifi.stackexchange.com/questions/105585/why-didnt-they-make-the-dinosaurs-all-male" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:186 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Why didn't they make the dinosaurs all **male**?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-worldbuilding" title="Worldbuilding Stack Exchange"></div><a href="http://worldbuilding.stackexchange.com/questions/28053/architecture-of-the-perfect-zombie-apocalypse-refuge" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:579 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Architecture of the perfect zombie apocalypse refuge
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-salesforce" title="Salesforce Stack Exchange"></div><a href="http://salesforce.stackexchange.com/questions/96610/reduce-soql-queries" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:459 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Reduce SOQL Queries
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-parenting" title="Parenting Stack Exchange"></div><a href="http://parenting.stackexchange.com/questions/22644/why-do-kids-pick-up-on-inappropriate-behavior-in-cartoons-movies" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:228 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Why do kids pick up on inappropriate behavior in cartoons/movies?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-money" title="Personal Finance &amp; Money Stack Exchange"></div><a href="http://money.stackexchange.com/questions/55041/should-i-sell-my-stocks-when-the-stock-hits-a-52-week-high-in-order-to-buy-low" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:93 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Should I sell my stocks when the stock hits a 52-week high in order to "Buy Low, Sell High"?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-academia" title="Academia Stack Exchange"></div><a href="http://academia.stackexchange.com/questions/56511/is-it-worth-it-to-master-latex-or-ms-word" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:415 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Is it worth it to master LaTeX or MS Word?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-security" title="Information Security Stack Exchange"></div><a href="http://security.stackexchange.com/questions/103233/can-i-sign-a-single-character-message-with-the-rsa-private-key" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:162 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Can I sign a single character message with the RSA private key?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-puzzling" title="Puzzling Stack Exchange"></div><a href="http://puzzling.stackexchange.com/questions/23334/polygonal-pizza" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:559 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Polygonal Pizza
+                </a>
+
+            </li>
+    </ul>
+
+        
+</div>
+		</div>
+	
+<div id="feed-link">
+    <div id="feed-link-text">
+        <a href="http://stackoverflow.com/feeds/question/97640" title="feed of this question and its answers">
+            <span class="feed-icon"></span>question feed
+        </a>
+    </div>
+</div>	<script>
+StackExchange.ready(function(){$.get('/posts/97640/ivc/d1f6');});
+</script>
+<noscript>
+    <div><img src="/posts/97640/ivc/d1f6" class="dno" alt="" width="0" height="0"></div>
+</noscript><div style="display:none" id="prettify-lang">lang-java</div></div>
+
+
+        </div>
+    </div>
+    <div id="footer" class="categories">
+        <div class="footerwrap">
+            <div id="footer-menu">
+                <div class="top-footer-links">
+                        <a href="http://stackoverflow.com/tour">tour</a>
+                    <a href="http://stackoverflow.com/help">help</a>
+                    <a href="http://blog.stackoverflow.com/?blb=1">blog</a>
+                        <a href="http://chat.stackoverflow.com/">chat</a>
+                    <a href="http://data.stackexchange.com/">data</a>
+                    <a href="http://stackexchange.com/legal">legal</a>
+                    <a href="http://stackexchange.com/legal/privacy-policy">privacy policy</a>
+                    <a href="http://stackexchange.com/work-here">work here</a>
+                    <a href="http://stackexchange.com/mediakit">advertising info</a>
+
+                    <a onclick='StackExchange.switchMobile("on")'>mobile</a>
+                    <b><a href="http://stackoverflow.com/contact">contact us</a></b>
+                        <b><a href="http://meta.stackoverflow.com/">feedback</a></b>
+                    
+                </div>
+                <div id="footer-sites">
+                    <table>
+    <tbody><tr>
+            <th colspan="3">
+                Technology
+            </th>
+            <th>
+                Life / Arts
+            </th>
+            <th>
+                Culture / Recreation
+            </th>
+            <th>
+                Science
+            </th>
+            <th>
+                Other
+            </th>
+    </tr>
+    <tr>
+            <td>
+                <ol>
+                        <li><a href="http://stackoverflow.com/" title="professional and enthusiast programmers">Stack Overflow</a></li>
+                        <li><a href="http://serverfault.com/" title="system and network administrators">Server Fault</a></li>
+                        <li><a href="http://superuser.com/" title="computer enthusiasts and power users">Super User</a></li>
+                        <li><a href="http://webapps.stackexchange.com/" title="power users of web applications">Web Applications</a></li>
+                        <li><a href="http://askubuntu.com/" title="Ubuntu users and developers">Ask Ubuntu</a></li>
+                        <li><a href="http://webmasters.stackexchange.com/" title="pro webmasters">Webmasters</a></li>
+                        <li><a href="http://gamedev.stackexchange.com/" title="professional and independent game developers">Game Development</a></li>
+                        <li><a href="http://tex.stackexchange.com/" title="users of TeX, LaTeX, ConTeXt, and related typesetting systems">TeX - LaTeX</a></li>
+                            </ol></td><td><ol>
+                        <li><a href="http://programmers.stackexchange.com/" title="professional programmers interested in conceptual questions about software development">Programmers</a></li>
+                        <li><a href="http://unix.stackexchange.com/" title="users of Linux, FreeBSD and other Un*x-like operating systems">Unix &amp; Linux</a></li>
+                        <li><a href="http://apple.stackexchange.com/" title="power users of Apple hardware and software">Ask Different (Apple)</a></li>
+                        <li><a href="http://wordpress.stackexchange.com/" title="WordPress developers and administrators">WordPress Development</a></li>
+                        <li><a href="http://gis.stackexchange.com/" title="cartographers, geographers and GIS professionals">Geographic Information Systems</a></li>
+                        <li><a href="http://electronics.stackexchange.com/" title="electronics and electrical engineering professionals, students, and enthusiasts">Electrical Engineering</a></li>
+                        <li><a href="http://android.stackexchange.com/" title="enthusiasts and power users of the Android operating system">Android Enthusiasts</a></li>
+                        <li><a href="http://security.stackexchange.com/" title="information security professionals">Information Security</a></li>
+                            </ol></td><td><ol>
+                        <li><a href="http://dba.stackexchange.com/" title="database professionals who wish to improve their database skills and learn from others in the community">Database Administrators</a></li>
+                        <li><a href="http://drupal.stackexchange.com/" title="Drupal developers and administrators">Drupal Answers</a></li>
+                        <li><a href="http://sharepoint.stackexchange.com/" title="SharePoint enthusiasts">SharePoint</a></li>
+                        <li><a href="http://ux.stackexchange.com/" title="user experience researchers and experts">User Experience</a></li>
+                        <li><a href="http://mathematica.stackexchange.com/" title="users of Mathematica">Mathematica</a></li>
+                        <li><a href="http://salesforce.stackexchange.com/" title="Salesforce administrators, implementation experts, developers and anybody in-between">Salesforce</a></li>
+                        <li><a href="http://expressionengine.stackexchange.com/" title="administrators, end users, developers and designers for ExpressionEngine® CMS">ExpressionEngine® Answers</a></li>
+                    
+                        <li>
+                            <a href="http://stackexchange.com/sites#technology" class="more">
+                                more (13)
+                            </a>
+                        </li>
+                </ol>
+            </td>
+            <td>
+                <ol>
+                        <li><a href="http://photo.stackexchange.com/" title="professional, enthusiast and amateur photographers">Photography</a></li>
+                        <li><a href="http://scifi.stackexchange.com/" title="science fiction and fantasy enthusiasts">Science Fiction &amp; Fantasy</a></li>
+                        <li><a href="http://graphicdesign.stackexchange.com/" title="Graphic Design professionals, students, and enthusiasts">Graphic Design</a></li>
+                        <li><a href="http://movies.stackexchange.com/" title="movie and tv enthusiasts">Movies &amp; TV</a></li>
+                        <li><a href="http://cooking.stackexchange.com/" title="professional and amateur chefs">Seasoned Advice (cooking)</a></li>
+                        <li><a href="http://diy.stackexchange.com/" title="contractors and serious DIYers">Home Improvement</a></li>
+                        <li><a href="http://money.stackexchange.com/" title="people who want to be financially literate">Personal Finance &amp; Money</a></li>
+                        <li><a href="http://academia.stackexchange.com/" title="academics and those enrolled in higher education">Academia</a></li>
+                    
+                        <li>
+                            <a href="http://stackexchange.com/sites#lifearts" class="more">
+                                more (9)
+                            </a>
+                        </li>
+                </ol>
+            </td>
+            <td>
+                <ol>
+                        <li><a href="http://english.stackexchange.com/" title="linguists, etymologists, and serious English language enthusiasts">English Language &amp; Usage</a></li>
+                        <li><a href="http://skeptics.stackexchange.com/" title="scientific skepticism">Skeptics</a></li>
+                        <li><a href="http://judaism.stackexchange.com/" title="those who base their lives on Jewish law and tradition and anyone interested in learning more">Mi Yodeya (Judaism)</a></li>
+                        <li><a href="http://travel.stackexchange.com/" title="road warriors and seasoned travelers">Travel</a></li>
+                        <li><a href="http://christianity.stackexchange.com/" title="committed Christians, experts in Christianity and those interested in learning more">Christianity</a></li>
+                        <li><a href="http://gaming.stackexchange.com/" title="passionate videogamers on all platforms">Arqade (gaming)</a></li>
+                        <li><a href="http://bicycles.stackexchange.com/" title="people who build and repair bicycles, people who train cycling, or commute on bicycles">Bicycles</a></li>
+                        <li><a href="http://rpg.stackexchange.com/" title="gamemasters and players of tabletop, paper-and-pencil role-playing games">Role-playing Games</a></li>
+                    
+                        <li>
+                            <a href="http://stackexchange.com/sites#culturerecreation" class="more">
+                                more (21)
+                            </a>
+                        </li>
+                </ol>
+            </td>
+            <td>
+                <ol>
+                        <li><a href="http://math.stackexchange.com/" title="people studying math at any level and professionals in related fields">Mathematics</a></li>
+                        <li><a href="http://stats.stackexchange.com/" title="people interested in statistics, machine learning, data analysis, data mining, and data visualization">Cross Validated (stats)</a></li>
+                        <li><a href="http://cstheory.stackexchange.com/" title="theoretical computer scientists and researchers in related fields">Theoretical Computer Science</a></li>
+                        <li><a href="http://physics.stackexchange.com/" title="active researchers, academics and students of physics">Physics</a></li>
+                        <li><a href="http://mathoverflow.net/" title="professional mathematicians">MathOverflow</a></li>
+                        <li><a href="http://chemistry.stackexchange.com/" title="scientists, academics, teachers and students">Chemistry</a></li>
+                        <li><a href="http://biology.stackexchange.com/" title="biology researchers, academics, and students">Biology</a></li>
+                    
+                        <li>
+                            <a href="http://stackexchange.com/sites#science" class="more">
+                                more (5)
+                            </a>
+                        </li>
+                </ol>
+            </td>
+            <td>
+                <ol>
+                        <li><a href="http://stackapps.com/" title="apps, scripts, and development with the Stack Exchange API">Stack Apps</a></li>
+                        <li><a href="http://meta.stackexchange.com/" title="meta-discussion of the Stack Exchange family of Q&amp;A websites">Meta Stack Exchange</a></li>
+                        <li><a href="http://area51.stackexchange.com/" title="proposing new sites in the Stack Exchange network">Area 51</a></li>
+                        <li><a href="http://careers.stackoverflow.com/">Stack Overflow Careers</a></li>
+                    
+                </ol>
+            </td>
+    </tr>
+</tbody></table>
+                </div>
+            </div>
+
+            <div id="copyright">
+                site design / logo © 2015 Stack Exchange Inc; user contributions licensed under <a href="http://creativecommons.org/licenses/by-sa/3.0/" rel="license">cc by-sa 3.0</a> 
+                with <a href="http://blog.stackoverflow.com/2009/06/attribution-required/" rel="license">attribution required</a>
+            </div>
+            <div id="svnrev">
+                rev 2015.10.21.2892
+            </div>
+            
+        </div>
+    </div>
+    <noscript>
+        <div id="noscript-warning">Stack Overflow works best with JavaScript enabled<img src="http://pixel.quantserve.com/pixel/p-c1rF4kxgLUzNc.gif" alt="" class="dno"></div>
+    </noscript>
+<script>var p = "http", d = "static"; if (document.location.protocol == "https:") { p += "s"; d = "engine"; } var z = document.createElement("script"); z.type = "text/javascript"; z.async = true; z.src = p + "://" + d + ".adzerk.net/ados.js"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(z, s);</script>
+<script>
+    var ados = ados || {};
+    ados.run = ados.run || [];
+    ados.run.push(function () { ados_setKeywords('java,maven-2,copy,runtime,dependencies');; ados_load(); });         
+</script>
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m);
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-5620270-1');
+                        ga('set', 'dimension2', '|java|maven-2|copy|runtime|dependencies|');         ga('send', 'pageview');
+        var _qevents = _qevents || [],
+            _comscore = _comscore || [];
+        (function () {
+            var ssl='https:'==document.location.protocol,
+                s=document.getElementsByTagName('script')[0],
+                qc=document.createElement('script');
+            qc.async=true;
+            qc.src=(ssl?'https://secure':'http://edge')+'.quantserve.com/quant.js';
+            s.parentNode.insertBefore(qc, s);
+            var sc=document.createElement('script');
+            sc.async=true;
+            sc.src=(ssl?'https://sb':'http://b') + '.scorecardresearch.com/beacon.js';
+            s.parentNode.insertBefore(sc, s);
+        })();
+        _comscore.push({ c1: "2", c2: "17440561" });
+        _qevents.push({ qacct: "p-c1rF4kxgLUzNc" });
+    </script>
+            
+    
+</body></html>
